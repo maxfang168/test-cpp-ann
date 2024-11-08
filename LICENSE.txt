@@ -1,2 +1,11 @@
-Copyright 2024 Max Fang (maxfang168)
-All rights reserved.
+Copyright (c) 2024 Max Fang (maxfang168). All rights reserved.
+
+This repository and all associated code, files, documentation, and related content (collectively referred to as "the Repository") are the exclusive property of the copyright holder. By accessing this Repository, you agree to comply with the following terms:
+
+1: No Downloading: You are not permitted to download, clone, fork, or otherwise retrieve any files from this Repository, except as explicitly permitted by the copyright holder.
+2: No Copying: You may not copy, reproduce, or extract any portion of the code, files, or documentation contained in the Repository for any purpose.
+3: No Modification: You may not modify, alter, adapt, or reverse-engineer the code or any part of the files in this Repository.
+4: No Redistribution: You are prohibited from redistributing, sharing, or releasing the code, files, or any derivative works publicly or privately, under any circumstances.
+5: Viewing Access Only: You are granted access to view the contents of this Repository for personal, non-commercial purposes, strictly for inspection and learning. You may not use the code or files for personal, commercial, or educational projects.
+6: Termination of Access: The copyright holder reserves the right to revoke your access to this Repository at any time without notice, if it is determined that you have violated any of these terms.
+Any violation of the terms outlined in this License may result in legal action.
