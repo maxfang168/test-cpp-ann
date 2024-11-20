@@ -15,6 +15,17 @@ You may not:
 - Copy, reproduce, or use the content for any purpose other than viewing it for personal, non-commercial purposes.
 - Modify, adapt, or create derivative works based on the Repository’s code or files.
 - Redistribute or share the content of the Repository in any form, either publicly or privately.
+- Use the Repository for any commercial or profit-driven activities.
+- Remove or alter any copyright, trademark, or other proprietary notices from the Repository.
+- Use the Repository in any way that could damage, disable, overburden, or impair the Repository or interfere with any other party's use and enjoyment of the Repository.
+- Engage in any activities that may harm the reputation or goodwill of the copyright holder or any other party.
+- Attempt to gain unauthorized access to the Repository or its systems.
+- Use the Repository in any manner that violates any applicable laws or regulations.
+- Use the Repository in any manner that violates the privacy or rights of others.
+- Use the Repository for any use besides its intended usage.
+- Use the Repository for any use that is not authorized by the copyright holder.
+- Use the Repository for any use that is not in compliance with the terms of service of any third-party service or platform.
+- Base any other code on the content of this Repository.
 
 ## 3. No Warranty
 
