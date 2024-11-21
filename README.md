@@ -11,19 +11,19 @@ This program is designed for the purpose of furthering my understanding of the C
 
 This project will utilize a ANN, and ASCII depictions of the Tic-Tac-Toe board. It will run locally on user's cpu. The ANN will be manually programmed, with no libraries.
 Idea:
-Input layer consists of 9 neurons, each with an input normalized to either 1, or -1. 1 will indicate a move by the player, and -1 will indicate a move made by the ANN. IE:
+Input layer consists of 9 neurons, each with an input normalized to either 1, or -1. 1 will indicate a move by the player, 0 will indicate empty spot, and -1 will indicate a move made by the ANN. IE:
 Board visualization:
 User is X, ANN is O:
 ```
 X | O | X
 ---------
-O | X | O
+O | X | 
 ---------
 X | O | X
 ```
 The input layer will be:
 ```
-{1, -1, 1, -1, 1, -1, 1, -1, 1}
+{1, -1, 1, -1, 1, 0, 1, -1, 1}
 ```
 This will enable the ANN to start playing either player, and be able to continue previous games.
 Output will consist of 9 neurons, with a weight between 1 and -1. The highest output will become the spot where the ANN is to place their piece. If the highest output already has a piece in it, the second highest, then the 3rd, and so on will be considered.
