@@ -52,12 +52,12 @@ Output layer: 9 neurons
 # Training
 
 
-ALL VALUES WILL BE NORMALIZED TO C++ DOUBLES (rounding will be incorporated).
+ALL VALUES WILL BE NORMALIZED TO C++ LONG DOUBLES.
 The ANN will be trained using the following method:
 - The ANN will start with random weights between -0.5 and 0.5.
 - The ANN will play a game of Tic-Tac-Toe against a human player
 During the game, a win/loss/draw detection function will be run after every move.
-- The ANN will then add 1/(2+(game#/10) (minimum will be 0.01 to prevent stagnation) to the weights of the neurons that were activated when the ANN won, and subtract 1/(2+(game#/5) (minimum will be 0.01 to prevent stagnation) from the weights of the neurons that were activated when the human player won.
+- The ANN will then add 1/(2+(game#/10) (minimum will be 0.0001 to prevent stagnation) to the weights of the neurons that were activated when the ANN won, and subtract 1/(2+(game#/5) (minimum will be 0.0001 to prevent stagnation) from the weights of the neurons that were activated when the human player won.
 - The ANN will then play another game of Tic-Tac-Toe against a human player
 There are plans to implement ANN vs ANN training.
 #Win/Loss detection
