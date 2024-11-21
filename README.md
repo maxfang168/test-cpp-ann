@@ -2,6 +2,8 @@
 
 
 This program is designed for the purpose of furthering my understanding of the C++ programming language. It is not intended to be used as the basis for any actual projects.
+
+
 **BY VIEWING THIS REPOSITORY, YOU ACKNOWLEDGE THAT YOU HAVE READ THE TERMS OF SERVICE, CONTAINED IN THE LICENSE FILE, AND ARE LEGALLY BOUND TO IT.**
 
 # Outline:
