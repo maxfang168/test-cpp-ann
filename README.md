@@ -6,7 +6,7 @@ This program is designed for the purpose of furthering my understanding of the C
 
 **BY VIEWING THIS REPOSITORY, YOU ACKNOWLEDGE THAT YOU HAVE READ THE TERMS OF SERVICE, CONTAINED IN THE LICENSE FILE, AND ARE LEGALLY BOUND TO IT.**
 
-# Outline:
+# Outline
 
 
 This project will utilize an ANN, and ASCII depictions of the Tic-Tac-Toe board. In the ASCII depiction, the Xs and Os will be displayed, but empty spaces will be replaced with a "." It will run locally on the user's CPU. The ANN will be manually programmed, with no libraries.
