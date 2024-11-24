@@ -3,7 +3,7 @@
 #include <ctime>
 
 //Program variables:
-int board[9] = {1, 0, -1, 0, 1, 0, -1, 0, 0}; //Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
+int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
 int gameNumber=0; //Keeps track of game number
 
 //Weights
@@ -68,7 +68,7 @@ int displayBoard(char annToken, char playerToken) {
 	return 0;
 }
 
-//Function that returns random long double weight.
+//Function that returns random long double weight or bias.
 long double randomWeight() {
 	return (static_cast<long double>(rand()) / RAND_MAX) - 0.5;
 }
@@ -96,10 +96,36 @@ int randomizeWeights() {
 		layer3Weights[i] = randomWeight();
 		std::cout << "Hidden 3 index " << i << ": " << layer3Weights[i] << std::endl;
 	}
-// Randomize output layer weights
+    // Randomize output layer weights
 	for (int i = 0; i < 9; i++) {
 		outputWeights[i] = randomWeight();
 		std::cout << "Output index " << i << ": " << outputWeights[i] << std::endl;
+	}
+	return 0;
+}
+
+//Randomizes neuron biases between -0.5 and 0.5
+int randomizeBiases() {
+	std::cout << "Init model biases randomization:" << std::endl << "Debug prints is true: " << std::endl;
+// Randomize hidden layer 1 biases
+	for (int i = 0; i < 9; i++)  {
+		layer1Biases[i] = randomWeight();
+		std::cout << "Hidden 1 index " << i << ": " << layer1Biases[i] << std::endl;
+	}
+	// Randomize hidden layer 2 biases
+	for (int i = 0; i < 9; i++)  {
+		layer2Biases[i] = randomWeight();
+		std::cout << "Hidden 2 index " << i << ": " << layer2Biases[i] << std::endl;
+	}
+	// Randomize hidden layer 3 biases
+	for (int i = 0; i < 9; i++)  {
+		layer3Biases[i] = randomWeight();
+		std::cout << "Hidden 3 index " << i << ": " << layer3Biases[i] << std::endl;
+	}
+    // Randomize output layer biases
+	for (int i = 0; i < 9; i++) {
+		outputBiases[i] = randomWeight();
+		std::cout << "Output index " << i << ": " << outputBiases[i] << std::endl;
 	}
 	return 0;
 }
@@ -108,7 +134,10 @@ int randomizeWeights() {
 int main() {
 	srand(time(0)); //Initial seed set for random num generation
 	std::cout << "Welcome to Max\'s tic-tac-toe ANN!" << std::endl;
+	std::cout << "Debug board print:" << std::endl;
 	displayBoard('O', 'X');
 	randomizeWeights();
+	std::cout << std::endl << "Weight randomization complete." << std::endl << std::endl << "Beginning bias randomization:" << std::endl;
+    randomizeBiases();
 	return 0;
 }
