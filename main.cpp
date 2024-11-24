@@ -20,6 +20,40 @@ double layer2Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Hidden layer #2 biases
 double layer3Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Hidden layer #3 biases
 double outputBiases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Output layer biases
 
+//Function that displays ASCII render of board. Takes in chars annToken and playerToken:
+int displayBoard(char annToken, char playerToken) {
+
+    for (int i = 0; i < 9, i++;) { //loop through array
+        if (board[i] == 0) { //On empty
+            std::cout << "." << "";
+        } //SELF NOTE: FINISH AND ALIGN AND FIX
+        else if ((board[i] == -1) && (i != 3) && (i != 6) && (i!=9)) { //On ann that edge of row
+            std::cout << annToken << std::endl;
+            std::cout << "---------" << std::endl; //Row seperator
+        }
+        else if ((board[i] == -1) && (i != 3) && (i != 6) && (i!=9)) { //On player piece that edge of row
+            std::cout << playerToken << std::endl;
+            std::cout << "---------" << std::endl; //Row seperator
+        }
+        else if (board[i] == -1) { //On ann that not edge of row
+            std::cout << annToken << " | ";
+        }
+        else if (board[i] == 1) { //On player that not edge of row
+            std::cout << playerToken << " | ";
+        }
+    }
+    std::cout << std::endl;
+    /*
+    std::cout << "Board (Debug print): " << std::endl << std::endl;
+    std::cout << board[0] << " | " << board[1] << " | " << board[2] << std::endl; //Row 1
+    std::cout << "---------" << std::endl; //Row seperator
+    std::cout << board[3] << " | " << board[4] << " | " << board[5] << std::endl; //Row 2
+    std::cout << "---------" << std::endl; //Row seperator
+    std::cout << board[6] << " | " << board[7] << " | " << board[8] << std::endl << std::endl; //Row 3
+    */
+    return 0;
+}
+
 //Function that returns random long double weight.
 long double randomWeight() {
     return (static_cast<long double>(rand()) / RAND_MAX) - 0.5;
@@ -27,41 +61,40 @@ long double randomWeight() {
 
 //Randomizes neuron weights between -0.5 and 0.5
 int randomizeWeights() {
-    std::cout << "Init model weights randomization:" << endl;
+    std::cout << "Init model weights randomization:" << std::endl << "Debug prints is true: " << std::endl;
 // Randomize input layer weights
     for (int i = 0; i < 9; i++) {
         inputWeights[i] = randomWeight();
-        std::cout << inputWeights[i] << std::endl;
+        std::cout << "Input index " << i << ": " << inputWeights[i] << std::endl;
     }
 // Randomize hidden layer 1 weights
     for (int i = 0; i < 9; i++)  {
         layer1Weights[i] = randomWeight();
-        std::cout << layer1Weights[i] << std::endl;
+        std::cout << "Hidden 1 index " << i << ": " <<layer1Weights[i] << std::endl;
     }
     // Randomize hidden layer 2 weights
     for (int i = 0; i < 9; i++)  {
         layer2Weights[i] = randomWeight();
-        std::cout << layer2Weights[i] << std::endl;
+        std::cout << "Hidden 2 index " << i << ": " << layer2Weights[i] << std::endl;
     }
     // Randomize hidden layer 3 weights
     for (int i = 0; i < 9; i++)  {
         layer3Weights[i] = randomWeight();
-        std::cout << layer3Weights[i] << std::endl;
+        std::cout << "Hidden 3 index " << i << ": " << layer3Weights[i] << std::endl;
     }
 // Randomize output layer weights
     for (int i = 0; i < 9; i++) {
         outputWeights[i] = randomWeight();
-        std::cout << outputWeights[i] << std::endl;
+        std::cout << "Output index " << i << ": " << outputWeights[i] << std::endl;
     }
-    
+    return 0;
 }
 
 
 int main() {
     srand(time(0)); //Initial seed set for random num generation
-    std::cout << "Welcome to Max\'s tic-tac-toe ANN!";
-
-    //Function declarations
+    std::cout << "Welcome to Max\'s tic-tac-toe ANN!" << std::endl;
+    displayBoard("O");
     randomizeWeights();
     return 0;
 }
