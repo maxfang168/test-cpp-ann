@@ -3,7 +3,7 @@
 #include <ctime>
 
 //Program variables:
-int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
+int board[9] = {1, 0, -1, 0, 1, 0, -1, 0, 0}; //Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
 int gameNumber=0; //Keeps track of game number
 
 //Weights
@@ -23,23 +23,37 @@ double outputBiases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; //Output layer biases
 //Function that displays ASCII render of board. Takes in chars annToken and playerToken:
 int displayBoard(char annToken, char playerToken) {
 
-    for (int i = 0; i < 9, i++;) { //loop through array
-        if (board[i] == 0) { //On empty
-            std::cout << "." << "";
-        } //SELF NOTE: FINISH AND ALIGN AND FIX
-        else if ((board[i] == -1) && (i != 3) && (i != 6) && (i!=9)) { //On ann that edge of row
-            std::cout << annToken << std::endl;
-            std::cout << "---------" << std::endl; //Row seperator
+    for (int i = 0; i < 9; i++) { //loop through array
+        if ((i == 2) || (i == 5) || (i == 8)) { //Detect if on edge of board
+            if (board[i] == -1) { //ANN piece
+                std::cout << annToken << std::endl;
+                if (i != 8) { //Ensures last row dosen't have seperator at bottom
+                std::cout << "---------" << std::endl; //Row seperator
+                }
+            }
+            else if (board[i] == 1) { //Player piece
+                std::cout << playerToken << std::endl;
+                if (i != 8) { //Ensures last row dosen't have seperator at bottom
+                std::cout << "---------" << std::endl; //Row seperator
+                }
+            }
+            else if (board[i] == 0) { //Empty spot
+                std::cout << "." << std::endl;
+                if (i != 8) { //Ensures last row dosen't have seperator at bottom
+                std::cout << "---------" << std::endl; //Row seperator
+                }
+            }
         }
-        else if ((board[i] == -1) && (i != 3) && (i != 6) && (i!=9)) { //On player piece that edge of row
-            std::cout << playerToken << std::endl;
-            std::cout << "---------" << std::endl; //Row seperator
-        }
-        else if (board[i] == -1) { //On ann that not edge of row
-            std::cout << annToken << " | ";
-        }
-        else if (board[i] == 1) { //On player that not edge of row
-            std::cout << playerToken << " | ";
+        else { //Middle or non-column piece
+            if (board[i] == -1) { //ANN piece
+                std::cout << annToken << " | ";
+            }
+            else if (board[i] == 1) { //Player piece
+                std::cout << playerToken << " | ";
+            }
+            else if (board[i] == 0) { //Empty spot
+                std::cout << "." << " | ";
+            }
         }
     }
     std::cout << std::endl;
@@ -94,7 +108,7 @@ int randomizeWeights() {
 int main() {
     srand(time(0)); //Initial seed set for random num generation
     std::cout << "Welcome to Max\'s tic-tac-toe ANN!" << std::endl;
-    displayBoard("O");
+    displayBoard('O', 'X');
     randomizeWeights();
     return 0;
 }
