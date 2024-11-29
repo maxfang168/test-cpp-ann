@@ -58,27 +58,31 @@ The ANN will be trained using the following method:
 - The ANN will play a game of Tic-Tac-Toe against a human player
 During the game, a win/loss/draw detection function will be run after every move.
 - The ANN will then add 1/(2+(game#/10) (minimum will be 0.0001 to prevent stagnation) to the weights and a quarter of that to the biases of the neurons that were activated when the ANN won, and subtract 1/(2+(game#/5) (minimum will be 0.0001 to prevent stagnation) from the weights and a quarter of that from the biases of the neurons that were activated when the human player won.
+
+**NOTE THAT THE BIASES ARE EXEMPT FROM THE 0.0001 RULE, THEY GO TO A MINNIMUM OF 0.000025, WHICH IS 1/4th OF THE MINNIMUM WEIGHT**.
 - The ANN will then play another game of Tic-Tac-Toe against a human player
 There are plans to implement ANN vs ANN training.
 #Win/Loss Detection
 - A program will be written to detect if the game has been won, lost, or is a draw
 
-# Requirements
+# Requirements (IF RUNNING IN MODERN OS)
 
 
-Minimum (Not recommended):
-Note that in this configuration, modern operating systems will leave the program with almost nothing to work with, and the program will either lag or will be unable to run.
+**Minimum** *(Not recommended)***:**
+*Note that in this configuration, modern operating systems will leave the program with almost nothing to work with, and the program will either lag or will be unable to run.*
 - C++XX
 - Clang or G++ (C++ compiler)
 - 4 GB RAM
 - 1.1 GHz, dual-core CPU (Remember, the program will run locally on your CPU)
-Recommended:
+
+**Recommended:**
 - C++17 or newer
 - Clang or G++ (C++ compiler)
 - 16 GB RAM
 - 3 Ghz, 6 core CPU (Remember, the program will run locally on your CPU)
-Best:
-Optimal performance
+
+**Best:**
+*Optimal performance*
 - C++20 or newer
 - Clang or G++ (C++ compiler)
 - 32 GB RAM
