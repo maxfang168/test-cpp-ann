@@ -10,18 +10,25 @@ int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Represents board state (0 = empty
 int gameNumber = 0;							// Keeps track of game number
 
 // Weights
-double inputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};  // Input layer weights
-double layer1Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #1 weights
-double layer2Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #2 weights
-double layer3Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #3 weights
-double outputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Output layer weights
+long double inputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};  // Input layer weights
+long double layer1Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #1 weights
+long double layer2Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #2 weights
+long double layer3Weights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #3 weights
+long double outputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Output layer weights
 
 // Biases
 // Input layer has no biases.
-double layer1Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #1 biases
-double layer2Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #2 biases
-double layer3Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #3 biases
-double outputBiases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Output layer biases
+long double layer1Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #1 biases
+long double layer2Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #2 biases
+long double layer3Biases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #3 biases
+long double outputBiases[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Output layer biases
+
+// Values:
+long double inputValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};  // Input layer values
+long double layer1Values[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #1 values
+long double layer2Values[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #2 values
+long double layer3Values[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Hidden layer #3 values
+long double outputValues[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Output layer values
 
 // Bias activations:
 bool layer1BiasActivations[9] = {false, false, false, false, false, false, false, false, false}; // Hidden layer #1 bias activations
@@ -230,13 +237,105 @@ char checkBoard()
 	return valid;
 }
 
-// Runs ANN Placeholder for now
+// Runs ANN
 int runANN()
 {
 	int outputIndex; // Index of output in array of board
+	//Input neurons:
+	for (int i = 0; i < 9; i++) {
+		inputValues[i] = board[i]*inputWeights[i];
+	}
+	//Layer 1
+	for (int i = 0; i < 9; i++) {
+	    layer1Values[i] = inputValues[i]*layer1Weights[i] + layer1Biases[i];
+	}
+	//Layer 2 w/act funct
+	for (int i = 0; i < 9; i++) {
+	    layer2Values[i] = ((layer1Values[0] + layer1Values[1] + layer1Values[2] + layer1Values[3] + layer1Values[4] + layer1Values[5] + layer1Values[6] + layer1Values[7] + layer1Values[8])/9)*layer2Weights[i] + layer2Biases[i];
+		if (layer2Values[i] <= 0.5) { //Activation function
+	        layer2Values[i] = 0;
+	    }
+	}
+	//Layer 3 w/act funct
+	for (int i = 0; i < 9; i++) {
+	    layer3Values[i] = ((layer2Values[0] + layer2Values[1] + layer2Values[2] + layer2Values[3] + layer2Values[4] + layer2Values[5] + layer2Values[6] + layer2Values[7] + layer2Values[8])/9)*layer3Weights[i] + layer3Biases[i];
+		if (layer3Values[i] <= 0.5) { //Activation function
+	        layer3Values[i] = 0;
+	    }
+	}
+	//Output layer (no actfunct)
+	for (int i = 0; i < 9; i++) {
+	    outputValues[i] = ((layer3Values[0] + layer3Values[1] + layer3Values[2] + layer3Values[3] + layer3Values[4] + layer3Values[5] + layer3Values[6] + layer3Values[7] + layer3Values[8])/9)*outputWeights[i] + outputBiases[i];
+	}
+	
+	std::cout << std::endl << std::endl << "What is the index of the largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the second largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the third largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the fourth largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the fifth largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the sixth largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the seventh largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the eigth largest value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	//Check if piece is already there
+	if (board[outputIndex] != 0) {
+		std::cout << std::endl << std::endl << "Piece already present. Sort it again." << std::endl;
+		std::cout << std::endl << std::endl << "What is the index of the least value? (Index starts at 0)" << std::endl << std::endl << outputValues[0] << std::endl << outputValues[1] << std::endl << outputValues[2] << std::endl << outputValues[3] << std::endl << outputValues[4] << std::endl << outputValues[5] << std::endl << outputValues[6] << std::endl << outputValues[7] << std::endl << outputValues[8] << std::endl;
+	std::cin >> outputIndex;
+	}
+	}
+	}
+	}
+	}
+	}
+	}
+	}
 	return outputIndex;
 }
 
+//Clears data after game
+int clear() {
+	//Board
+board[0] = 0;
+board[1] = 0;
+board[2] = 0;
+board[3] = 0;
+board[4] = 0;
+board[5] = 0;
+board[6] = 0;
+board[7] = 0;
+board[8] = 0;
+inputValues[0] = 0;
+return 0;
+}
 // Uses activation arrays to adjust weights and biases of neurons.
 int trainModelFromGame(char res)
 {
@@ -387,6 +486,7 @@ int trainOnce()
 		decision = runANN(); // Run the model
 	}
 	gameNumber++;
+	clear()
 	return 0;
 }
 
