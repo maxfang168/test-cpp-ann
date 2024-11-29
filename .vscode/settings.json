@@ -4,7 +4,7 @@
   "C_Cpp_Runner.debuggerPath": "lldb",
   "C_Cpp_Runner.cStandard": "",
   "C_Cpp_Runner.cppStandard": "",
-  "C_Cpp_Runner.msvcBatchPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Auxiliary/Build/vcvarsall.bat",
+  "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.useMsvc": false,
   "C_Cpp_Runner.warnings": [
     "-Wall",
@@ -60,7 +60,7 @@
   "Codegeex.Chat.LanguagePreference": "English",
   "Codegeex.Comment.LanguagePreference": "English",
   "Codegeex.CommitMessage.LanguagePreference": "English",
-  "Codegeex.CompletionDelay": 1,
+  "Codegeex.CompletionDelay": 0.1,
   "files.associations": {
     "algorithm": "cpp",
     "atomic": "cpp",
@@ -111,6 +111,20 @@
     "xmemory": "cpp",
     "xstring": "cpp",
     "xtr1common": "cpp",
-    "xutility": "cpp"
-  }
+    "xutility": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "cwctype": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "functional": "cpp",
+    "memory_resource": "cpp",
+    "numeric": "cpp",
+    "random": "cpp",
+    "string_view": "cpp",
+    "numbers": "cpp"
+  },
+  "Codegeex.GenerationPreference": "block"
 }

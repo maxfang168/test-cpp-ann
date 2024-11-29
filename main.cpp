@@ -6,8 +6,8 @@
 
 // training flags:
 bool stillRunningTraining = true;
-int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
-int gameNumber = 0;							// Keeps track of game number
+int board[9] = {-1, -1, 0, -1, -1, 0, -1, -1, 0}; // Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
+int gameNumber = 0;							  // Keeps track of game number
 
 // Weights
 long double inputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};	// Input layer weights
@@ -174,7 +174,7 @@ int randomizeBiases()
 // Checks for wins. Return Key: n = no win yet, a = ANN win, h = human win, d = draw
 char checkBoard()
 {
-	char valid = NULL; // Check if win is detected
+	char valid = ' '; // Check if win is detected
 	if (board[0] == board[1] && board[1] == board[2] && board[1] != 0)
 	{ // Check row 1
 		if (board[1] == -1)
@@ -245,7 +245,6 @@ int runANN()
 	for (int i = 0; i < 9; i++)
 	{
 		inputValues[i] = board[i] * inputWeights[i];
-		in
 	}
 	// Layer 1
 	for (int i = 0; i < 9; i++)
@@ -280,15 +279,15 @@ int runANN()
 			  << std::endl
 			  << "What is the index of the largest value? (Index starts at 0)" << std::endl
 			  << std::endl
-			  << outputValues[0] << std::endl
-			  << outputValues[1] << std::endl
-			  << outputValues[2] << std::endl
-			  << outputValues[3] << std::endl
-			  << outputValues[4] << std::endl
-			  << outputValues[5] << std::endl
-			  << outputValues[6] << std::endl
-			  << outputValues[7] << std::endl
-			  << outputValues[8] << std::endl;
+			  << "0 " << outputValues[0] << std::endl
+			  << "1 " << outputValues[1] << std::endl
+			  << "2 " << outputValues[2] << std::endl
+			  << "3 " << outputValues[3] << std::endl
+			  << "4 " << outputValues[4] << std::endl
+			  << "5 " << outputValues[5] << std::endl
+			  << "6 " << outputValues[6] << std::endl
+			  << "7 " << outputValues[7] << std::endl
+			  << "8 " << outputValues[8] << std::endl;
 	std::cin >> outputIndex;
 	// Check if piece is already there
 	if (board[outputIndex] != 0)
@@ -300,15 +299,15 @@ int runANN()
 				  << std::endl
 				  << "What is the index of the second largest value? (Index starts at 0)" << std::endl
 				  << std::endl
-				  << outputValues[0] << std::endl
-				  << outputValues[1] << std::endl
-				  << outputValues[2] << std::endl
-				  << outputValues[3] << std::endl
-				  << outputValues[4] << std::endl
-				  << outputValues[5] << std::endl
-				  << outputValues[6] << std::endl
-				  << outputValues[7] << std::endl
-				  << outputValues[8] << std::endl;
+				  << "0 " << outputValues[0] << std::endl
+				  << "1 " << outputValues[1] << std::endl
+				  << "2 " << outputValues[2] << std::endl
+				  << "3 " << outputValues[3] << std::endl
+				  << "4 " << outputValues[4] << std::endl
+				  << "5 " << outputValues[5] << std::endl
+				  << "6 " << outputValues[6] << std::endl
+				  << "7 " << outputValues[7] << std::endl
+				  << "8 " << outputValues[8] << std::endl;
 		std::cin >> outputIndex;
 		// Check if piece is already there
 		if (board[outputIndex] != 0)
@@ -320,15 +319,15 @@ int runANN()
 					  << std::endl
 					  << "What is the index of the third largest value? (Index starts at 0)" << std::endl
 					  << std::endl
-					  << outputValues[0] << std::endl
-					  << outputValues[1] << std::endl
-					  << outputValues[2] << std::endl
-					  << outputValues[3] << std::endl
-					  << outputValues[4] << std::endl
-					  << outputValues[5] << std::endl
-					  << outputValues[6] << std::endl
-					  << outputValues[7] << std::endl
-					  << outputValues[8] << std::endl;
+					  << "0 " << outputValues[0] << std::endl
+					  << "1 " << outputValues[1] << std::endl
+					  << "2 " << outputValues[2] << std::endl
+					  << "3 " << outputValues[3] << std::endl
+					  << "4 " << outputValues[4] << std::endl
+					  << "5 " << outputValues[5] << std::endl
+					  << "6 " << outputValues[6] << std::endl
+					  << "7 " << outputValues[7] << std::endl
+					  << "8 " << outputValues[8] << std::endl;
 			std::cin >> outputIndex;
 			// Check if piece is already there
 			if (board[outputIndex] != 0)
@@ -340,15 +339,15 @@ int runANN()
 						  << std::endl
 						  << "What is the index of the fourth largest value? (Index starts at 0)" << std::endl
 						  << std::endl
-						  << outputValues[0] << std::endl
-						  << outputValues[1] << std::endl
-						  << outputValues[2] << std::endl
-						  << outputValues[3] << std::endl
-						  << outputValues[4] << std::endl
-						  << outputValues[5] << std::endl
-						  << outputValues[6] << std::endl
-						  << outputValues[7] << std::endl
-						  << outputValues[8] << std::endl;
+						  << "0 " << outputValues[0] << std::endl
+						  << "1 " << outputValues[1] << std::endl
+						  << "2 " << outputValues[2] << std::endl
+						  << "3 " << outputValues[3] << std::endl
+						  << "4 " << outputValues[4] << std::endl
+						  << "5 " << outputValues[5] << std::endl
+						  << "6 " << outputValues[6] << std::endl
+						  << "7 " << outputValues[7] << std::endl
+						  << "8 " << outputValues[8] << std::endl;
 				std::cin >> outputIndex;
 				// Check if piece is already there
 				if (board[outputIndex] != 0)
@@ -360,15 +359,15 @@ int runANN()
 							  << std::endl
 							  << "What is the index of the fifth largest value? (Index starts at 0)" << std::endl
 							  << std::endl
-							  << outputValues[0] << std::endl
-							  << outputValues[1] << std::endl
-							  << outputValues[2] << std::endl
-							  << outputValues[3] << std::endl
-							  << outputValues[4] << std::endl
-							  << outputValues[5] << std::endl
-							  << outputValues[6] << std::endl
-							  << outputValues[7] << std::endl
-							  << outputValues[8] << std::endl;
+							  << "0 " << outputValues[0] << std::endl
+							  << "1 " << outputValues[1] << std::endl
+							  << "2 " << outputValues[2] << std::endl
+							  << "3 " << outputValues[3] << std::endl
+							  << "4 " << outputValues[4] << std::endl
+							  << "5 " << outputValues[5] << std::endl
+							  << "6 " << outputValues[6] << std::endl
+							  << "7 " << outputValues[7] << std::endl
+							  << "8 " << outputValues[8] << std::endl;
 					std::cin >> outputIndex;
 					// Check if piece is already there
 					if (board[outputIndex] != 0)
@@ -380,15 +379,15 @@ int runANN()
 								  << std::endl
 								  << "What is the index of the sixth largest value? (Index starts at 0)" << std::endl
 								  << std::endl
-								  << outputValues[0] << std::endl
-								  << outputValues[1] << std::endl
-								  << outputValues[2] << std::endl
-								  << outputValues[3] << std::endl
-								  << outputValues[4] << std::endl
-								  << outputValues[5] << std::endl
-								  << outputValues[6] << std::endl
-								  << outputValues[7] << std::endl
-								  << outputValues[8] << std::endl;
+								  << "0 " << outputValues[0] << std::endl
+								  << "1 " << outputValues[1] << std::endl
+								  << "2 " << outputValues[2] << std::endl
+								  << "3 " << outputValues[3] << std::endl
+								  << "4 " << outputValues[4] << std::endl
+								  << "5 " << outputValues[5] << std::endl
+								  << "6 " << outputValues[6] << std::endl
+								  << "7 " << outputValues[7] << std::endl
+								  << "8 " << outputValues[8] << std::endl;
 						std::cin >> outputIndex;
 						// Check if piece is already there
 						if (board[outputIndex] != 0)
@@ -400,15 +399,15 @@ int runANN()
 									  << std::endl
 									  << "What is the index of the seventh largest value? (Index starts at 0)" << std::endl
 									  << std::endl
-									  << outputValues[0] << std::endl
-									  << outputValues[1] << std::endl
-									  << outputValues[2] << std::endl
-									  << outputValues[3] << std::endl
-									  << outputValues[4] << std::endl
-									  << outputValues[5] << std::endl
-									  << outputValues[6] << std::endl
-									  << outputValues[7] << std::endl
-									  << outputValues[8] << std::endl;
+									  << "0 " << outputValues[0] << std::endl
+									  << "1 " << outputValues[1] << std::endl
+									  << "2 " << outputValues[2] << std::endl
+									  << "3 " << outputValues[3] << std::endl
+									  << "4 " << outputValues[4] << std::endl
+									  << "5 " << outputValues[5] << std::endl
+									  << "6 " << outputValues[6] << std::endl
+									  << "7 " << outputValues[7] << std::endl
+									  << "8 " << outputValues[8] << std::endl;
 							std::cin >> outputIndex;
 							// Check if piece is already there
 							if (board[outputIndex] != 0)
@@ -420,15 +419,15 @@ int runANN()
 										  << std::endl
 										  << "What is the index of the eigth largest value? (Index starts at 0)" << std::endl
 										  << std::endl
-										  << outputValues[0] << std::endl
-										  << outputValues[1] << std::endl
-										  << outputValues[2] << std::endl
-										  << outputValues[3] << std::endl
-										  << outputValues[4] << std::endl
-										  << outputValues[5] << std::endl
-										  << outputValues[6] << std::endl
-										  << outputValues[7] << std::endl
-										  << outputValues[8] << std::endl;
+										  << "0" << outputValues[0] << std::endl
+										  << "1 " << outputValues[1] << std::endl
+										  << "2 " << outputValues[2] << std::endl
+										  << "3 " << outputValues[3] << std::endl
+										  << "4 " << outputValues[4] << std::endl
+										  << "5 " << outputValues[5] << std::endl
+										  << "6 " << outputValues[6] << std::endl
+										  << "7 " << outputValues[7] << std::endl
+										  << "8 " << outputValues[8] << std::endl;
 								std::cin >> outputIndex;
 								// Check if piece is already there
 								if (board[outputIndex] != 0)
@@ -440,15 +439,15 @@ int runANN()
 											  << std::endl
 											  << "What is the index of the least value? (Index starts at 0)" << std::endl
 											  << std::endl
-											  << outputValues[0] << std::endl
-											  << outputValues[1] << std::endl
-											  << outputValues[2] << std::endl
-											  << outputValues[3] << std::endl
-											  << outputValues[4] << std::endl
-											  << outputValues[5] << std::endl
-											  << outputValues[6] << std::endl
-											  << outputValues[7] << std::endl
-											  << outputValues[8] << std::endl;
+											  << "0" << outputValues[0] << std::endl
+											  << "1 " << outputValues[1] << std::endl
+											  << "2 " << outputValues[2] << std::endl
+											  << "3 " << outputValues[3] << std::endl
+											  << "4 " << outputValues[4] << std::endl
+											  << "5 " << outputValues[5] << std::endl
+											  << "6 " << outputValues[6] << std::endl
+											  << "7 " << outputValues[7] << std::endl
+											  << "8 " << outputValues[8] << std::endl;
 									std::cin >> outputIndex;
 								}
 							}
@@ -458,6 +457,10 @@ int runANN()
 			}
 		}
 	}
+	std::cout << std::endl
+			  << std::endl
+			  << "Debug print. Output index: " << outputIndex << std::endl
+			  << std::endl;
 	return outputIndex;
 }
 
@@ -534,195 +537,259 @@ int clear()
 	layer1WeightActivations[3] = false;
 	layer1WeightActivations[4] = false;
 	layer1WeightActivations[5] = false;
+	layer1WeightActivations[6] = false;
+	layer1WeightActivations[7] = false;
+	layer1WeightActivations[8] = false;
+	layer2WeightActivations[0] = false;
+	layer2WeightActivations[1] = false;
+	layer2WeightActivations[2] = false;
+	layer2WeightActivations[3] = false;
+	layer2WeightActivations[4] = false;
+	layer2WeightActivations[5] = false;
+	layer2WeightActivations[6] = false;
+	layer2WeightActivations[7] = false;
+	layer2WeightActivations[8] = false;
+	layer3WeightActivations[0] = false;
+	layer3WeightActivations[1] = false;
+	layer3WeightActivations[2] = false;
+	layer3WeightActivations[3] = false;
+	layer3WeightActivations[4] = false;
+	layer3WeightActivations[5] = false;
+	layer3WeightActivations[6] = false;
+	layer3WeightActivations[7] = false;
+	layer3WeightActivations[8] = false;
+	outputWeightActivations[0] = false;
+	outputWeightActivations[1] = false;
+	outputWeightActivations[2] = false;
+	outputWeightActivations[3] = false;
+	outputWeightActivations[4] = false;
+	outputWeightActivations[5] = false;
+	outputWeightActivations[6] = false;
+	outputWeightActivations[7] = false;
+	outputWeightActivations[8] = false;
 
+	layer1BiasActivations[0] = false;
+	layer1BiasActivations[1] = false;
+	layer1BiasActivations[2] = false;
+	layer1BiasActivations[3] = false;
+	layer1BiasActivations[4] = false;
+	layer1BiasActivations[5] = false;
+	layer1BiasActivations[6] = false;
+	layer1BiasActivations[7] = false;
+	layer1BiasActivations[8] = false;
+	layer2BiasActivations[0] = false;
+	layer2BiasActivations[1] = false;
+	layer2BiasActivations[2] = false;
+	layer2BiasActivations[3] = false;
+	layer2BiasActivations[4] = false;
+	layer2BiasActivations[5] = false;
+	layer2BiasActivations[6] = false;
+	layer2BiasActivations[7] = false;
+	layer2BiasActivations[8] = false;
+	layer3BiasActivations[0] = false;
+	layer3BiasActivations[1] = false;
+	layer3BiasActivations[2] = false;
+	layer3BiasActivations[3] = false;
+	layer3BiasActivations[4] = false;
+	layer3BiasActivations[5] = false;
+	layer3BiasActivations[6] = false;
+	layer3BiasActivations[7] = false;
+	layer3BiasActivations[8] = false;
+	outputBiasActivations[0] = false;
+	outputBiasActivations[1] = false;
+	outputBiasActivations[2] = false;
+	outputBiasActivations[3] = false;
+	outputBiasActivations[4] = false;
+	outputBiasActivations[5] = false;
+	outputBiasActivations[6] = false;
+	outputBiasActivations[7] = false;
+	outputBiasActivations[8] = false;
+
+	return 0;
+}
+
+// Uses activation arrays to adjust weights and biases of neurons.
+int trainModelFromGame(char res)
+{
+	long double adup = 1 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
+	long double addo = 1 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
+
+	std::cout << std::endl
+			  << std::endl
+			  << "Debug print. adup: " << adup << " addo: " << addo << " Game number: " << gameNumber << std::endl
+			  << std::endl;
+	if (adup < 0.0001)
+	{ // Checks for potential stagnation. SEE README.MD
+		adup == 0.0001;
+	}
+	if (addo < 0.0001)
+	{ // Check for potential stagnation. README.MD more info
+		addo == 0.0001;
+	}
+	for (int i = 0; i < 9; i++)
+	{ // Loop throuigh the various activation arrays repeat 9 times
+		if (i == 0)
+		{
+			if (inputWeightActivations[i] == true)
+			{
+				if (res == 'a')
+				{ // ANN win
+					inputWeights[i] = inputWeights[i] + adup;
+				}
+				if (res == 'h')
+				{ // Human win
+					inputWeights[i] = inputWeights[i] - addo;
+				}
+			}
+			if (layer1WeightActivations[i] == true)
+			{
+				if (res == 'a')
+				{ // ANN win
+					layer1Weights[i] = layer1Weights[i] + adup;
+				}
+				if (res == 'h')
+				{ // Human win
+					layer1Weights[i] = layer1Weights[i] - addo;
+				}
+			}
+			if (layer2WeightActivations[i] == true)
+			{
+				if (res == 'a')
+				{ // ANN win
+					layer2Weights[i] = layer2Weights[i] + adup;
+				}
+				if (res == 'h')
+				{ // Human win
+					layer2Weights[i] = layer2Weights[i] - addo;
+				}
+			}
+			if (layer3WeightActivations[i] == true)
+			{
+				if (res == 'a')
+				{ // ANN win
+					layer3Weights[i] = layer3Weights[i] + adup;
+				}
+				if (res == 'h')
+				{ // Human win
+					layer3Weights[i] = layer3Weights[i] - addo;
+				}
+			}
+			if (outputWeightActivations[i] == true)
+			{
+				if (res == 'a')
+				{ // ANN win
+					outputWeights[i] = outputWeights[i] + adup;
+				}
+				if (res == 'h')
+				{ // Human win
+					outputWeights[i] = outputWeights[i] - addo;
+				}
+			}
+			if (layer1Biases[i] == true)
+			{
+				if (res == 'a')
+				{												  // ANN win
+					layer1Biases[i] = layer1Biases[i] + adup / 4; // see README.MD
+				}
+				if (res == 'h')
+				{												  // human wiun
+					layer1Biases[i] = layer1Biases[i] - addo / 4; // see README.MD
+				}
+			}
+			if (layer2Biases[i] == true)
+			{
+				if (res == 'a')
+				{												  // ANN win
+					layer2Biases[i] = layer2Biases[i] + adup / 4; // see README.MD
+				}
+				if (res == 'h')
+				{												  // hunman win
+					layer2Biases[i] = layer2Biases[i] - addo / 4; // see README.MD
+				}
+			}
+			if (layer3Biases[i] == true)
+			{
+				if (res == 'a')
+				{												  // ANN win
+					layer3Biases[i] = layer3Biases[i] + adup / 4; // see README.MD
+				}
+				if (res == 'h')
+				{												  // Human win
+					layer3Biases[i] = layer3Biases[i] - addo / 4; // see README.MD
+				}
+			}
+			if (outputBiases[i] == true)
+			{
+				if (res == 'a')
+				{												  // ANN win
+					outputBiases[i] = outputBiases[i] + adup / 4; // see README.MD
+				}
+				if (res == 'h')
+				{												  // Human win
+					outputBiases[i] = outputBiases[i] - addo / 4; // see README.MD
+				}
+			}
+		}
+	}
+	return 0;
+}
+// Trains the model exactly for one game
+int trainOnce()
+{
+	bool trainFunctRun = true; // For game loop
+	char annToken;			   // ANN piece
+	char playerToken;		   // Player piece
+	int decision = -1;		   // Board index of decision of ANN (place piece) (-1 for now)
+	std::cout << "Enter ANN token (piece): ";
+	std::cin >> annToken;
+	std::cout << "Enter player token (piece): ";
+	std::cin >> playerToken;
+	std::cout << std::endl
+			  << std::endl
+			  << std::endl; // Spacers for visual accuity
+	while (trainFunctRun == true)
+	{							 // One game
+		char res = checkBoard(); // Save memory by only calling once per run
+		std::cout << std::endl
+				  << "Debug res token: " << res << std::endl;
+		if (res == 'a' || res == 'h' || res == 'd')
+		{
+			std::cout << "If condition has been triggered.";
+			gameNumber += 1; // Add game num before dependent fnct call
+			trainModelFromGame(res);
+			trainFunctRun = false;
+			break;
+		}
+		displayBoard(annToken, playerToken);
+		decision = runANN();  // Run the model
+		board[decision] = -1; // Make move.
+	}
+	clear();
 	return 0;
 }
 
 int main()
 {
-	// Game loop
-	while (true)
-	{
-		// Clears data
-		clear();
-		// Prints board
-		return 0;
-	}
-	// Uses activation arrays to adjust weights and biases of neurons.
-	int trainModelFromGame(char res)
-	{
-		int adup = 1 / (2 + (gameNumber / 10)); // Number to add up for win.
-		int addo = 1 / (2 + (gameNumber / 5));	// Number to subtract for loss.
-		if (adup < 0.0001)
-		{ // Checks for potential stagnation. SEE README.MD
-			adup == 0.0001;
-		}
-		if (addo < 0.0001)
-		{ // Check for potential stagnation. README.MD more info
-			addo == 0.0001;
-		}
-		for (int i = 0; i < 9; i++)
-		{ // Loop throuigh the various activation arrays repeat 9 times
-			if (i == 0)
-			{
-				if (inputWeightActivations[i] == true)
-				{
-					if (res == 'a')
-					{ // ANN win
-						inputWeights[i] = inputWeights[i] + adup;
-					}
-					if (res == 'h')
-					{ // Human win
-						inputWeights[i] = inputWeights[i] - addo;
-					}
-				}
-				if (layer1WeightActivations[i] == true)
-				{
-					if (res == 'a')
-					{ // ANN win
-						layer1Weights[i] = layer1Weights[i] + adup;
-					}
-					if (res == 'h')
-					{ // Human win
-						layer1Weights[i] = layer1Weights[i] - addo;
-					}
-				}
-				if (layer2WeightActivations[i] == true)
-				{
-					if (res == 'a')
-					{ // ANN win
-						layer2Weights[i] = layer2Weights[i] + adup;
-					}
-					if (res == 'h')
-					{ // Human win
-						layer2Weights[i] = layer2Weights[i] - addo;
-					}
-				}
-				if (layer3WeightActivations[i] == true)
-				{
-					if (res == 'a')
-					{ // ANN win
-						layer3Weights[i] = layer3Weights[i] + adup;
-					}
-					if (res == 'h')
-					{ // Human win
-						layer3Weights[i] = layer3Weights[i] - addo;
-					}
-				}
-				if (outputWeightActivations[i] == true)
-				{
-					if (res == 'a')
-					{ // ANN win
-						outputWeights[i] = outputWeights[i] + adup;
-					}
-					if (res == 'h')
-					{ // Human win
-						outputWeights[i] = outputWeights[i] - addo;
-					}
-				}
-				if (layer1Biases[i] == true)
-				{
-					if (res == 'a')
-					{												  // ANN win
-						layer1Biases[i] = layer1Biases[i] + adup / 4; // see README.MD
-					}
-					if (res == 'h')
-					{												  // human wiun
-						layer1Biases[i] = layer1Biases[i] - addo / 4; // see README.MD
-					}
-				}
-				if (layer2Biases[i] == true)
-				{
-					if (res == 'a')
-					{												  // ANN win
-						layer2Biases[i] = layer2Biases[i] + adup / 4; // see README.MD
-					}
-					if (res == 'h')
-					{												  // hunman win
-						layer2Biases[i] = layer2Biases[i] - addo / 4; // see README.MD
-					}
-				}
-				if (layer3Biases[i] == true)
-				{
-					if (res == 'a')
-					{												  // ANN win
-						layer3Biases[i] = layer3Biases[i] + adup / 4; // see README.MD
-					}
-					if (res == 'h')
-					{												  // Human win
-						layer3Biases[i] = layer3Biases[i] - addo / 4; // see README.MD
-					}
-				}
-				if (outputBiases[i] == true)
-				{
-					if (res == 'a')
-					{												  // ANN win
-						outputBiases[i] = outputBiases[i] + adup / 4; // see README.MD
-					}
-					if (res == 'h')
-					{												  // Human win
-						outputBiases[i] = outputBiases[i] - addo / 4; // see README.MD
-					}
-				}
-			}
-		}
-		return 0;
-	}
-	// Trains the model exactly for one game
-	int trainOnce()
-	{
-		bool trainFunctRun = true; // For game loop
-		char annToken;			   // ANN piece
-		char playerToken;		   // Player piece
-		int decision = -1;		   // Board index of decision of ANN (place piece) (-1 for now)
-		std::cout << "Enter ANN token (piece): ";
-		std::cin >> annToken;
-		std::cout << "Enter player token (piece): ";
-		std::cin >> playerToken;
+	srand(time(0)); // Initial seed set for random num generation
+	std::cout << "Welcome to Max\'s tic-tac-toe ANN!" << std::endl;
+	std::cout << "Debug board print:" << std::endl;
+	displayBoard('O', 'X');
+	randomizeWeights();
+	std::cout << std::endl
+			  << "Weight randomization complete." << std::endl
+			  << std::endl
+			  << "Beginning bias randomization:" << std::endl;
+	randomizeBiases();
+	std::cout << std::endl
+			  << "Training initiating.";
+	std::cout << std::endl
+			  << "Init main loop." << std::endl;
+	while (stillRunningTraining == true)
+	{ // Main loop
 		std::cout << std::endl
-				  << std::endl
-				  << std::endl; // Spacers for visual accuity
-		while (trainFunctRun == true)
-		{							 // One game
-			char res = checkBoard(); // Save memory by only calling once per run
-			std::cout << std::endl
-					  << "Debug res token: " << res << std::endl;
-			if (res == 'a' || res == 'h' || res == 'd')
-			{
-				std::cout << "If condition has been triggered.";
-				trainModelFromGame(res);
-				trainFunctRun = false;
-				break;
-			}
-			displayBoard(annToken, playerToken);
-			decision = runANN(); // Run the model
-		}
-		gameNumber++;
-		clear() return 0;
+				  << "Main loop iteration." << std::endl
+				  << std::endl;
+		trainOnce();
 	}
-
-	int main()
-	{
-		srand(time(0)); // Initial seed set for random num generation
-		std::cout << "Welcome to Max\'s tic-tac-toe ANN!" << std::endl;
-		std::cout << "Debug board print:" << std::endl;
-		displayBoard('O', 'X');
-		randomizeWeights();
-		std::cout << std::endl
-				  << "Weight randomization complete." << std::endl
-				  << std::endl
-				  << "Beginning bias randomization:" << std::endl;
-		randomizeBiases();
-		std::cout << std::endl
-				  << "Training initiating.";
-		std::cout << std::endl
-				  << "Init main loop." << std::endl;
-		while (stillRunningTraining == true)
-		{ // Main loop
-			std::cout << std::endl
-					  << "Main loop iteration." << std::endl
-					  << std::endl;
-			trainOnce();
-		}
-		return 0;
-	}
+	return 0;
+}
