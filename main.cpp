@@ -6,8 +6,8 @@
 
 // training flags:
 bool stillRunningTraining = true;
-int board[9] = {-1, -1, 0, -1, -1, 0, -1, -1, 0}; // Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
-int gameNumber = 0;							  // Keeps track of game number
+int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
+int gameNumber = 0;							// Keeps track of game number
 
 // Weights
 long double inputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};	// Input layer weights
@@ -228,6 +228,30 @@ char checkBoard()
 	else if (board[0] != 0 && board[1] != 0 && board[2] != 0 && board[3] != 0 && board[4] != 0 && board[5] != 0 && board[6] != 0 && board[7] != 0 && board[8] != 0)
 	{				 // Checks for draw IE: board full and no winner
 		valid = 'd'; // Draw
+	}
+	else if (board[0] == board[3] && board[3] == board[6] && board[3] != 0) { //Check collumn 1
+		if (board[3] == -1) { //ann win
+			valid = 'a';
+		}
+		if (board[3] == 1) { //human win
+			valid = 'h';
+		}
+	}
+	else if (board[1] == board[4] && board[4] == board[7] && board[4] != 0) { //Check collumn 2
+		if (board[4] == -1) { //ann win
+			valid = 'a';
+		}
+		if (board[4] == 1) { //human win
+			valid = 'h';
+		}
+	}
+	else if (board[2] == board[5] && board[5] == board[8] && board[5] != 0) { //Check collumn 3
+		if (board[5] == -1) { //ann win
+			valid = 'a';
+		}
+		if (board[5] == 1) { //human win
+			valid = 'h';
+		}
 	}
 	else
 	{
@@ -611,9 +635,8 @@ int clear()
 // Uses activation arrays to adjust weights and biases of neurons.
 int trainModelFromGame(char res)
 {
-	long double adup = 1 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
-	long double addo = 1 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
-
+	long double adup = 10 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
+	long double addo = 10 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
 	std::cout << std::endl
 			  << std::endl
 			  << "Debug print. adup: " << adup << " addo: " << addo << " Game number: " << gameNumber << std::endl
@@ -628,106 +651,70 @@ int trainModelFromGame(char res)
 	}
 	for (int i = 0; i < 9; i++)
 	{ // Loop throuigh the various activation arrays repeat 9 times
-		if (i == 0)
+		if (layer1Values[i] > 0)
 		{
-			if (inputWeightActivations[i] == true)
-			{
-				if (res == 'a')
-				{ // ANN win
-					inputWeights[i] = inputWeights[i] + adup;
-				}
-				if (res == 'h')
-				{ // Human win
-					inputWeights[i] = inputWeights[i] - addo;
-				}
+			if (res == 'a')
+			{ // If ann won
+				layer1Biases[i] += adup / 4;
+				layer1Weights[i] += addo;
+				inputWeights[i] += addo;
 			}
-			if (layer1WeightActivations[i] == true)
-			{
-				if (res == 'a')
-				{ // ANN win
-					layer1Weights[i] = layer1Weights[i] + adup;
-				}
-				if (res == 'h')
-				{ // Human win
-					layer1Weights[i] = layer1Weights[i] - addo;
-				}
+			if (res == 'h')
+			{ // If human won
+				layer1Biases[i] -= adup / 4;
+				layer1Weights[i] -= addo;
+				inputWeights[i] -= addo;
 			}
-			if (layer2WeightActivations[i] == true)
-			{
-				if (res == 'a')
-				{ // ANN win
-					layer2Weights[i] = layer2Weights[i] + adup;
-				}
-				if (res == 'h')
-				{ // Human win
-					layer2Weights[i] = layer2Weights[i] - addo;
-				}
+		}
+		if (layer2Values[i] > 0)
+		{
+			if (res == 'a')
+			{ // If ann won
+				layer1Biases[i] += adup / 4;
+				layer1Weights[i] += addo;
+				layer2Biases[i] += adup / 4;
+				layer2Weights[i] += addo;
 			}
-			if (layer3WeightActivations[i] == true)
-			{
-				if (res == 'a')
-				{ // ANN win
-					layer3Weights[i] = layer3Weights[i] + adup;
-				}
-				if (res == 'h')
-				{ // Human win
-					layer3Weights[i] = layer3Weights[i] - addo;
-				}
+			if (res == 'h')
+			{ // If human won
+				layer1Biases[i] -= adup / 4;
+				layer1Weights[i] -= addo;
+				layer2Biases[i] -= adup / 4;
+				layer2Weights[i] -= addo;
 			}
-			if (outputWeightActivations[i] == true)
-			{
-				if (res == 'a')
-				{ // ANN win
-					outputWeights[i] = outputWeights[i] + adup;
-				}
-				if (res == 'h')
-				{ // Human win
-					outputWeights[i] = outputWeights[i] - addo;
-				}
+		}
+		if (layer3Values[i] > 0)
+		{
+			if (res == 'a')
+			{ // If ann won
+				layer2Biases[i] += adup / 4;
+				layer2Weights[i] += addo;
+				layer3Biases[i] += adup / 4;
+				layer3Weights[i] += addo;
 			}
-			if (layer1Biases[i] == true)
-			{
-				if (res == 'a')
-				{												  // ANN win
-					layer1Biases[i] = layer1Biases[i] + adup / 4; // see README.MD
-				}
-				if (res == 'h')
-				{												  // human wiun
-					layer1Biases[i] = layer1Biases[i] - addo / 4; // see README.MD
-				}
+			if (res == 'h')
+			{ // If human won
+				layer2Biases[i] -= adup / 4;
+				layer2Weights[i] -= addo;
+				layer3Biases[i] -= adup / 4;
+				layer3Weights[i] -= addo;
 			}
-			if (layer2Biases[i] == true)
-			{
-				if (res == 'a')
-				{												  // ANN win
-					layer2Biases[i] = layer2Biases[i] + adup / 4; // see README.MD
-				}
-				if (res == 'h')
-				{												  // hunman win
-					layer2Biases[i] = layer2Biases[i] - addo / 4; // see README.MD
-				}
+		}
+		if (outputValues[i] > 0)
+		{
+			if (res == 'a')
+			{ // If ann won
+				layer3Biases[i] += adup / 4;
+				layer3Weights[i] += addo;
+				outputBiases[i] += adup / 4;
+				outputWeights[i] += addo;
 			}
-			if (layer3Biases[i] == true)
-			{
-				if (res == 'a')
-				{												  // ANN win
-					layer3Biases[i] = layer3Biases[i] + adup / 4; // see README.MD
-				}
-				if (res == 'h')
-				{												  // Human win
-					layer3Biases[i] = layer3Biases[i] - addo / 4; // see README.MD
-				}
-			}
-			if (outputBiases[i] == true)
-			{
-				if (res == 'a')
-				{												  // ANN win
-					outputBiases[i] = outputBiases[i] + adup / 4; // see README.MD
-				}
-				if (res == 'h')
-				{												  // Human win
-					outputBiases[i] = outputBiases[i] - addo / 4; // see README.MD
-				}
+			if (res == 'h')
+			{ // If human won
+				layer3Biases[i] -= adup / 4;
+				layer3Weights[i] -= addo;
+				outputBiases[i] -= adup / 4;
+				outputWeights[i] -= addo;
 			}
 		}
 	}
@@ -740,6 +727,8 @@ int trainOnce()
 	char annToken;			   // ANN piece
 	char playerToken;		   // Player piece
 	int decision = -1;		   // Board index of decision of ANN (place piece) (-1 for now)
+	std::string hFirst;		   // If human go first
+	int hMove;				   // Human move index
 	std::cout << "Enter ANN token (piece): ";
 	std::cin >> annToken;
 	std::cout << "Enter player token (piece): ";
@@ -747,6 +736,23 @@ int trainOnce()
 	std::cout << std::endl
 			  << std::endl
 			  << std::endl; // Spacers for visual accuity
+	std::cout << std::endl
+			  << std::endl
+			  << "Will you go first?: (Y/n): ";
+	std::cin >> hFirst;
+	if (hFirst == "Y" || hFirst == "y" || hFirst == "Yes" || hFirst == "yes")
+	{ // Check if human goes first.
+		std::cout << std::endl
+				  << std::endl
+				  << "Board:" << std::endl
+				  << std::endl;
+		displayBoard(annToken, playerToken);
+		std::cout << std::endl
+				  << std::endl;
+		std::cout << "What move index will you make?: ";
+		std::cin >> hMove;
+		board[hMove] = 1;
+	}
 	while (trainFunctRun == true)
 	{							 // One game
 		char res = checkBoard(); // Save memory by only calling once per run
@@ -758,13 +764,25 @@ int trainOnce()
 			gameNumber += 1; // Add game num before dependent fnct call
 			trainModelFromGame(res);
 			trainFunctRun = false;
+			clear();
 			break;
 		}
 		displayBoard(annToken, playerToken);
 		decision = runANN();  // Run the model
 		board[decision] = -1; // Make move.
+		std::cout << std::endl
+				  << std::endl
+				  << "Board:" << std::endl
+				  << std::endl;
+		displayBoard(annToken, playerToken);
+		std::cout << std::endl
+				  << std::endl
+				  << "What index will you make your move?: ";
+		std::cin >> hMove;
+		board[hMove] = 1; // Make move.
+		std::cout << std::endl
+				  << std::endl;
 	}
-	clear();
 	return 0;
 }
 
