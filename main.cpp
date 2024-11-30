@@ -3,7 +3,6 @@
 #include <ctime>
 #include <algorithm>
 
-
 // Program variables:
 
 // training flags:
@@ -231,27 +230,36 @@ char checkBoard()
 	{				 // Checks for draw IE: board full and no winner
 		valid = 'd'; // Draw
 	}
-	else if (board[0] == board[3] && board[3] == board[6] && board[3] != 0) { //Check collumn 1
-		if (board[3] == -1) { //ann win
+	else if (board[0] == board[3] && board[3] == board[6] && board[3] != 0)
+	{ // Check collumn 1
+		if (board[3] == -1)
+		{ // ann win
 			valid = 'a';
 		}
-		if (board[3] == 1) { //human win
+		if (board[3] == 1)
+		{ // human win
 			valid = 'h';
 		}
 	}
-	else if (board[1] == board[4] && board[4] == board[7] && board[4] != 0) { //Check collumn 2
-		if (board[4] == -1) { //ann win
+	else if (board[1] == board[4] && board[4] == board[7] && board[4] != 0)
+	{ // Check collumn 2
+		if (board[4] == -1)
+		{ // ann win
 			valid = 'a';
 		}
-		if (board[4] == 1) { //human win
+		if (board[4] == 1)
+		{ // human win
 			valid = 'h';
 		}
 	}
-	else if (board[2] == board[5] && board[5] == board[8] && board[5] != 0) { //Check collumn 3
-		if (board[5] == -1) { //ann win
+	else if (board[2] == board[5] && board[5] == board[8] && board[5] != 0)
+	{ // Check collumn 3
+		if (board[5] == -1)
+		{ // ann win
 			valid = 'a';
 		}
-		if (board[5] == 1) { //human win
+		if (board[5] == 1)
+		{ // human win
 			valid = 'h';
 		}
 	}
@@ -302,9 +310,10 @@ int runANN()
 	}
 	long double orgOutputValues[9];
 	// Copy each element from outputValues to orgOutputValues
-for (int i = 0; i < 9; ++i) {
-    orgOutputValues[i] = outputValues[i];
-}
+	for (int i = 0; i < 9; ++i)
+	{
+		orgOutputValues[i] = outputValues[i];
+	}
 	std::sort(outputValues, outputValues + 9, std::greater<long double>()); // Sorts output values from highest to lowest
 	for (int i = 0; i < 9; i++)
 	{
@@ -312,7 +321,7 @@ for (int i = 0; i < 9; ++i) {
 		for (int j = 0; j < 9; j++)
 		{
 			if (target == orgOutputValues[j] && board[j] == 0)
-			{ //If empty spot
+			{ // If empty spot
 				outputIndex = j;
 				break;
 			}
@@ -472,8 +481,8 @@ int clear()
 // Uses activation arrays to adjust weights and biases of neurons.
 int trainModelFromGame(char res)
 {
-	long double adup = 10 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
-	long double addo = 10 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
+	long double adup = 4 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
+	long double addo = 4 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
 	std::cout << std::endl
 			  << std::endl
 			  << "Debug print. adup: " << adup << " addo: " << addo << " Game number: " << gameNumber << std::endl
@@ -607,7 +616,7 @@ int trainOnce()
 		displayBoard(annToken, playerToken);
 		decision = runANN();  // Run the model
 		board[decision] = -1; // Make move.
-		res = checkBoard(); // Save memory by only calling once per run
+		res = checkBoard();	  // Save memory by only calling once per run
 		std::cout << std::endl
 				  << "Debug res token: " << res << std::endl;
 		if (res == 'a' || res == 'h' || res == 'd')
