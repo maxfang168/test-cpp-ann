@@ -1,7 +1,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <algorithm>
+#include <algorithm> //Sorting
+#include <fstream> //File input/output
+
 
 // Program variables:
 
@@ -274,6 +276,7 @@ char checkBoard()
 // Runs ANN
 int runANN()
 {
+	long double minValue = 0.2;
 	int outputIndex; // Index of output in array of board
 	// Input neurons:
 	for (int i = 0; i < 9; i++)
@@ -289,7 +292,7 @@ int runANN()
 	for (int i = 0; i < 9; i++)
 	{
 		layer2Values[i] = ((layer1Values[0] + layer1Values[1] + layer1Values[2] + layer1Values[3] + layer1Values[4] + layer1Values[5] + layer1Values[6] + layer1Values[7] + layer1Values[8]) / 9) * layer2Weights[i] + layer2Biases[i];
-		if (layer2Values[i] <= 0.5)
+		if (layer2Values[i] <= minValue)
 		{ // Activation function
 			layer2Values[i] = 0;
 		}
@@ -298,7 +301,7 @@ int runANN()
 	for (int i = 0; i < 9; i++)
 	{
 		layer3Values[i] = ((layer2Values[0] + layer2Values[1] + layer2Values[2] + layer2Values[3] + layer2Values[4] + layer2Values[5] + layer2Values[6] + layer2Values[7] + layer2Values[8]) / 9) * layer3Weights[i] + layer3Biases[i];
-		if (layer3Values[i] <= 0.5)
+		if (layer3Values[i] <= minValue)
 		{ // Activation function
 			layer3Values[i] = 0;
 		}
@@ -337,6 +340,119 @@ int runANN()
 // Clears data after game
 int clear()
 {
+	//Save copy of game and ANN metadata.
+	std::ofstream outfile;
+	outfile.open("metaData.txt", std::ios_base::app);
+	if (!outfile.is_open()) {
+    std::cerr << "Error opening file." << std::endl;
+    return 1;
+}
+
+	outfile << "Game " << gameNumber << " Data: " << std::endl;
+	outfile << "Board: " << std::endl;
+	for (int i = 0; i < 9; i++)
+	{ // loop through array
+		if ((i == 2) || (i == 5) || (i == 8))
+		{ // Detect if on edge of board
+			if (board[i] == -1)
+			{ // ANN piece
+				outfile << "A"; // A for ANN
+				if (i != 8)
+				{										   // Ensures last row dosen't have seperator at bottom
+					outfile << "---------" << std::endl; // Row seperator
+				}
+			}
+			else if (board[i] == 1)
+			{ // Player piece
+				outfile << "P" << std::endl;
+				if (i != 8)
+				{										   // Ensures last row dosen't have seperator at bottom
+					outfile << "---------" << std::endl; // Row seperator
+				}
+			}
+			else if (board[i] == 0)
+			{ // Empty spot
+				outfile << "." << std::endl;
+				if (i != 8)
+				{										   // Ensures last row dosen't have seperator at bottom
+					outfile << "---------" << std::endl; // Row seperator
+				}
+			}
+		}
+		else
+		{ // Middle or non-column piece
+			if (board[i] == -1)
+			{ // ANN piece
+				outfile << "A" << " | ";
+			}
+			else if (board[i] == 1)
+			{ // Player piece
+				outfile << "P" << " | ";
+			}
+			else if (board[i] == 0)
+			{ // Empty spot
+				outfile << "." << " | ";
+			}
+		}
+	}
+	outfile << "Input layer weights: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << inputWeights[j] << std::endl;
+	}
+	outfile << "Input layer values: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << inputValues[j] << std::endl;
+	}
+	outfile << "Layer 1 weights: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer1Weights[j] << std::endl;
+	}
+	outfile << "Layer 1 biases: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer1Biases[j] << std::endl;
+	}
+	outfile << "Layer 1 values: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer1Values[j] << std::endl;
+	}
+	outfile << "Layer 2 weights: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer2Weights[j] << std::endl;
+	}
+	outfile << "Layer 2 biases: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+	    outfile << layer2Biases[j] << std::endl;
+	}
+	outfile << "Layer 2 values: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer2Values[j] << std::endl;
+	}
+	outfile << "Layer 3 weights: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer3Weights[j] << std::endl;
+	}
+	outfile << "Layer 3 biases: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer3Biases[j] << std::endl;
+	}
+	outfile << "Layer 3 values: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer3Values[j] << std::endl;
+	}
+	outfile << "Output layer values: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << outputValues[j] << std::endl;
+	}
+	outfile << "Input layer activations: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << inputWeightActivations[j] << std::endl;
+	}
+	outfile << "Layer 1 activations: " << std::endl;
+	for (int j = 0; j < 9; j++) {
+		outfile << layer1WeightActivations[j] << std::endl;
+	}
+	outfile << std::endl;
+	outfile.close();
 	// Board
 	board[0] = 0;
 	board[1] = 0;
@@ -481,19 +597,19 @@ int clear()
 // Uses activation arrays to adjust weights and biases of neurons.
 int trainModelFromGame(char res)
 {
-	long double adup = 4 / (2 + (static_cast<long double>(gameNumber) / 10)); // Number to add up for win.
-	long double addo = 4 / (2 + (static_cast<long double>(gameNumber) / 5));  // Number to subtract for loss.
+	long double adup = 2 / (1 + (static_cast<long double>(gameNumber) / 200)); // Number to add up for win.
+	long double addo = 2 / (1 + (static_cast<long double>(gameNumber) / 101)); // Number to subtract for loss.
 	std::cout << std::endl
 			  << std::endl
 			  << "Debug print. adup: " << adup << " addo: " << addo << " Game number: " << gameNumber << std::endl
 			  << std::endl;
-	if (adup < 0.0001)
+	if (adup < 0.1)
 	{ // Checks for potential stagnation. SEE README.MD
-		adup == 0.0001;
+		adup == 0.1;
 	}
-	if (addo < 0.0001)
+	if (addo < 0.1)
 	{ // Check for potential stagnation. README.MD more info
-		addo == 0.0001;
+		addo == 0.1;
 	}
 	for (int i = 0; i < 9; i++)
 	{ // Loop throuigh the various activation arrays repeat 9 times
@@ -569,77 +685,136 @@ int trainModelFromGame(char res)
 // Trains the model exactly for one game
 int trainOnce()
 {
+
 	bool trainFunctRun = true; // For game loop
 	char annToken;			   // ANN piece
 	char playerToken;		   // Player piece
 	int decision = -1;		   // Board index of decision of ANN (place piece) (-1 for now)
-	std::string hFirst;		   // If human go first
-	int hMove;				   // Human move index
-	std::cout << "Enter ANN token (piece): ";
-	std::cin >> annToken;
-	std::cout << "Enter player token (piece): ";
-	std::cin >> playerToken;
+	bool annVAnn = true;	   // ANN v ANN
+	std::string annVAnnInput;
+	int annCounter = 0;
+	std::string hFirst; // If human go first
+	int hMove;			// Human move index
+	std::cout << "Would you like to train in ANN vs ANN mode?: (Y/n): ";
+	std::cin >> annVAnnInput;
 	std::cout << std::endl
-			  << std::endl
-			  << std::endl; // Spacers for visual accuity
-	std::cout << std::endl
-			  << std::endl
-			  << "Will you go first?: (Y/n): ";
-	std::cin >> hFirst;
-	if (hFirst == "Y" || hFirst == "y" || hFirst == "Yes" || hFirst == "yes")
-	{ // Check if human goes first.
-		std::cout << std::endl
-				  << std::endl
-				  << "Board:" << std::endl
-				  << std::endl;
-		displayBoard(annToken, playerToken);
-		std::cout << std::endl
-				  << std::endl;
-		std::cout << "What move index will you make?: ";
-		std::cin >> hMove;
-		board[hMove] = 1;
+			  << "Debug print. annVAnnInput: " << annVAnnInput << std::endl;
+	if (annVAnnInput == "Y" || annVAnnInput == "y" || annVAnnInput == "yes" || annVAnnInput == "1" || annVAnnInput == "Yes" || annVAnnInput == "YES")
+	{
+		annVAnn = true;
+		std::cout << "Debug print: If statement triggered.";
 	}
-	while (trainFunctRun == true)
-	{							 // One game
-		char res = checkBoard(); // Save memory by only calling once per run
-		std::cout << std::endl
-				  << "Debug res token: " << res << std::endl;
-		if (res == 'a' || res == 'h' || res == 'd')
-		{
-			std::cout << "If condition has been triggered.";
-			gameNumber += 1; // Add game num before dependent fnct call
-			trainModelFromGame(res);
-			trainFunctRun = false;
-			clear();
-			break;
-		}
-		displayBoard(annToken, playerToken);
-		decision = runANN();  // Run the model
-		board[decision] = -1; // Make move.
-		res = checkBoard();	  // Save memory by only calling once per run
-		std::cout << std::endl
-				  << "Debug res token: " << res << std::endl;
-		if (res == 'a' || res == 'h' || res == 'd')
-		{
-			std::cout << "If condition has been triggered.";
-			gameNumber += 1; // Add game num before dependent fnct call
-			trainModelFromGame(res);
-			trainFunctRun = false;
-			clear();
-			break;
-		}
+	else
+	{
+		annVAnn = false;
+		std::cout << "Debug print: Else statement triggered.";
+	}
+	if (annVAnn == false)
+	{
+		std::cout << "Enter ANN token (piece): ";
+		std::cin >> annToken;
+		std::cout << "Enter player token (piece): ";
+		std::cin >> playerToken;
 		std::cout << std::endl
 				  << std::endl
-				  << "Board:" << std::endl
-				  << std::endl;
-		displayBoard(annToken, playerToken);
+				  << std::endl; // Spacers for visual accuity
 		std::cout << std::endl
 				  << std::endl
-				  << "What index will you make your move?: ";
-		std::cin >> hMove;
-		board[hMove] = 1; // Make move.
+				  << "Will you go first?: (Y/n): ";
+		std::cin >> hFirst;
+		if (hFirst == "Y" || hFirst == "y" || hFirst == "Yes" || hFirst == "yes")
+		{ // Check if human goes first.
+			std::cout << std::endl
+					  << std::endl
+					  << "Board:" << std::endl
+					  << std::endl;
+			displayBoard(annToken, playerToken);
+			std::cout << std::endl
+					  << std::endl;
+			std::cout << "What move index will you make?: ";
+			std::cin >> hMove;
+			board[hMove] = 1;
+		}
+			while (trainFunctRun == true)
+			{							 // One game
+				char res = checkBoard(); // Save memory by only calling once per run
+				std::cout << std::endl
+						  << "Debug res token: " << res << std::endl;
+				if (res == 'a' || res == 'h' || res == 'd')
+				{
+					std::cout << "If condition has been triggered.";
+					gameNumber += 1; // Add game num before dependent fnct call
+					trainModelFromGame(res);
+					trainFunctRun = false;
+					clear();
+					break;
+				}
+				displayBoard(annToken, playerToken);
+				decision = runANN();  // Run the model
+				board[decision] = -1; // Make move.
+				res = checkBoard();	  // Save memory by only calling once per run
+				std::cout << std::endl
+						  << "Debug res token: " << res << std::endl;
+				if (res == 'a' || res == 'h' || res == 'd')
+				{
+					std::cout << "If condition has been triggered.";
+					gameNumber += 1; // Add game num before dependent fnct call
+					trainModelFromGame(res);
+					trainFunctRun = false;
+					clear();
+					break;
+				}
+				std::cout << std::endl
+						  << std::endl
+						  << "Board:" << std::endl
+						  << std::endl;
+				displayBoard(annToken, playerToken);
+				std::cout << std::endl
+						  << std::endl
+						  << "What index will you make your move?: ";
+				std::cin >> hMove;
+				board[hMove] = 1; // Make move.
+
+				std::cout << std::endl
+						  << std::endl;
+			}
+	}
+	if (annVAnn == true)
+	{
 		std::cout << std::endl
-				  << std::endl;
+				  << "NOTE: Training in ANN vs ANN mode. How many games will you have it play against itself for?: ";
+		std::cin >> annCounter;
+		annToken = 'X';
+		playerToken = 'O';
+		for (int x = 0; x < annCounter; x++)
+		{
+			while (trainFunctRun == true)
+			{							 // One game
+				char res = checkBoard(); // Save memory by only calling once per run
+				if (res == 'a' || res == 'h' || res == 'd')
+				{
+					gameNumber += 1; // Add game num before dependent fnct call
+					trainModelFromGame(res);
+					trainFunctRun = false;
+					clear();
+					break;
+				}
+				decision = runANN();  // Run the model
+				board[decision] = -1; // Make move.
+				res = checkBoard();	  // Save memory by only calling once per run
+				if (res == 'a' || res == 'h' || res == 'd')
+				{
+					gameNumber += 1; // Add game num before dependent fnct call
+					trainModelFromGame(res);
+					trainFunctRun = false;
+					clear();
+					break;
+				}
+				// Experiment: hot wire ANN to its self.
+				board[runANN()] = 1;
+			}
+			trainFunctRun = true; //Reset so game can play again.
+		}
 	}
 	return 0;
 }

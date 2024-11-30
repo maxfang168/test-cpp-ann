@@ -60,7 +60,7 @@
   "Codegeex.Chat.LanguagePreference": "English",
   "Codegeex.Comment.LanguagePreference": "English",
   "Codegeex.CommitMessage.LanguagePreference": "English",
-  "Codegeex.CompletionDelay": 3,
+  "Codegeex.CompletionDelay": 0.1,
   "files.associations": {
     "algorithm": "cpp",
     "atomic": "cpp",
@@ -124,7 +124,8 @@
     "numeric": "cpp",
     "random": "cpp",
     "string_view": "cpp",
-    "numbers": "cpp"
+    "numbers": "cpp",
+    "fstream": "cpp"
   },
-  "Codegeex.GenerationPreference": "automatic"
+  "Codegeex.GenerationPreference": "block"
 }
