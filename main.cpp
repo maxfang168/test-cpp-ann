@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
+
 
 // Program variables:
 
@@ -298,186 +300,21 @@ int runANN()
 	{
 		outputValues[i] = ((layer3Values[0] + layer3Values[1] + layer3Values[2] + layer3Values[3] + layer3Values[4] + layer3Values[5] + layer3Values[6] + layer3Values[7] + layer3Values[8]) / 9) * outputWeights[i] + outputBiases[i];
 	}
-
-	std::cout << std::endl
-			  << std::endl
-			  << "What is the index of the largest value? (Index starts at 0)" << std::endl
-			  << std::endl
-			  << "0 " << outputValues[0] << std::endl
-			  << "1 " << outputValues[1] << std::endl
-			  << "2 " << outputValues[2] << std::endl
-			  << "3 " << outputValues[3] << std::endl
-			  << "4 " << outputValues[4] << std::endl
-			  << "5 " << outputValues[5] << std::endl
-			  << "6 " << outputValues[6] << std::endl
-			  << "7 " << outputValues[7] << std::endl
-			  << "8 " << outputValues[8] << std::endl;
-	std::cin >> outputIndex;
-	// Check if piece is already there
-	if (board[outputIndex] != 0)
+	long double orgOutputValues[9];
+	// Copy each element from outputValues to orgOutputValues
+for (int i = 0; i < 9; ++i) {
+    orgOutputValues[i] = outputValues[i];
+}
+	std::sort(outputValues, outputValues + 9, std::greater<long double>()); // Sorts output values from highest to lowest
+	for (int i = 0; i < 9; i++)
 	{
-		std::cout << std::endl
-				  << std::endl
-				  << "Piece already present. Sort it again." << std::endl;
-		std::cout << std::endl
-				  << std::endl
-				  << "What is the index of the second largest value? (Index starts at 0)" << std::endl
-				  << std::endl
-				  << "0 " << outputValues[0] << std::endl
-				  << "1 " << outputValues[1] << std::endl
-				  << "2 " << outputValues[2] << std::endl
-				  << "3 " << outputValues[3] << std::endl
-				  << "4 " << outputValues[4] << std::endl
-				  << "5 " << outputValues[5] << std::endl
-				  << "6 " << outputValues[6] << std::endl
-				  << "7 " << outputValues[7] << std::endl
-				  << "8 " << outputValues[8] << std::endl;
-		std::cin >> outputIndex;
-		// Check if piece is already there
-		if (board[outputIndex] != 0)
+		long double target = outputValues[i];
+		for (int j = 0; j < 9; j++)
 		{
-			std::cout << std::endl
-					  << std::endl
-					  << "Piece already present. Sort it again." << std::endl;
-			std::cout << std::endl
-					  << std::endl
-					  << "What is the index of the third largest value? (Index starts at 0)" << std::endl
-					  << std::endl
-					  << "0 " << outputValues[0] << std::endl
-					  << "1 " << outputValues[1] << std::endl
-					  << "2 " << outputValues[2] << std::endl
-					  << "3 " << outputValues[3] << std::endl
-					  << "4 " << outputValues[4] << std::endl
-					  << "5 " << outputValues[5] << std::endl
-					  << "6 " << outputValues[6] << std::endl
-					  << "7 " << outputValues[7] << std::endl
-					  << "8 " << outputValues[8] << std::endl;
-			std::cin >> outputIndex;
-			// Check if piece is already there
-			if (board[outputIndex] != 0)
-			{
-				std::cout << std::endl
-						  << std::endl
-						  << "Piece already present. Sort it again." << std::endl;
-				std::cout << std::endl
-						  << std::endl
-						  << "What is the index of the fourth largest value? (Index starts at 0)" << std::endl
-						  << std::endl
-						  << "0 " << outputValues[0] << std::endl
-						  << "1 " << outputValues[1] << std::endl
-						  << "2 " << outputValues[2] << std::endl
-						  << "3 " << outputValues[3] << std::endl
-						  << "4 " << outputValues[4] << std::endl
-						  << "5 " << outputValues[5] << std::endl
-						  << "6 " << outputValues[6] << std::endl
-						  << "7 " << outputValues[7] << std::endl
-						  << "8 " << outputValues[8] << std::endl;
-				std::cin >> outputIndex;
-				// Check if piece is already there
-				if (board[outputIndex] != 0)
-				{
-					std::cout << std::endl
-							  << std::endl
-							  << "Piece already present. Sort it again." << std::endl;
-					std::cout << std::endl
-							  << std::endl
-							  << "What is the index of the fifth largest value? (Index starts at 0)" << std::endl
-							  << std::endl
-							  << "0 " << outputValues[0] << std::endl
-							  << "1 " << outputValues[1] << std::endl
-							  << "2 " << outputValues[2] << std::endl
-							  << "3 " << outputValues[3] << std::endl
-							  << "4 " << outputValues[4] << std::endl
-							  << "5 " << outputValues[5] << std::endl
-							  << "6 " << outputValues[6] << std::endl
-							  << "7 " << outputValues[7] << std::endl
-							  << "8 " << outputValues[8] << std::endl;
-					std::cin >> outputIndex;
-					// Check if piece is already there
-					if (board[outputIndex] != 0)
-					{
-						std::cout << std::endl
-								  << std::endl
-								  << "Piece already present. Sort it again." << std::endl;
-						std::cout << std::endl
-								  << std::endl
-								  << "What is the index of the sixth largest value? (Index starts at 0)" << std::endl
-								  << std::endl
-								  << "0 " << outputValues[0] << std::endl
-								  << "1 " << outputValues[1] << std::endl
-								  << "2 " << outputValues[2] << std::endl
-								  << "3 " << outputValues[3] << std::endl
-								  << "4 " << outputValues[4] << std::endl
-								  << "5 " << outputValues[5] << std::endl
-								  << "6 " << outputValues[6] << std::endl
-								  << "7 " << outputValues[7] << std::endl
-								  << "8 " << outputValues[8] << std::endl;
-						std::cin >> outputIndex;
-						// Check if piece is already there
-						if (board[outputIndex] != 0)
-						{
-							std::cout << std::endl
-									  << std::endl
-									  << "Piece already present. Sort it again." << std::endl;
-							std::cout << std::endl
-									  << std::endl
-									  << "What is the index of the seventh largest value? (Index starts at 0)" << std::endl
-									  << std::endl
-									  << "0 " << outputValues[0] << std::endl
-									  << "1 " << outputValues[1] << std::endl
-									  << "2 " << outputValues[2] << std::endl
-									  << "3 " << outputValues[3] << std::endl
-									  << "4 " << outputValues[4] << std::endl
-									  << "5 " << outputValues[5] << std::endl
-									  << "6 " << outputValues[6] << std::endl
-									  << "7 " << outputValues[7] << std::endl
-									  << "8 " << outputValues[8] << std::endl;
-							std::cin >> outputIndex;
-							// Check if piece is already there
-							if (board[outputIndex] != 0)
-							{
-								std::cout << std::endl
-										  << std::endl
-										  << "Piece already present. Sort it again." << std::endl;
-								std::cout << std::endl
-										  << std::endl
-										  << "What is the index of the eigth largest value? (Index starts at 0)" << std::endl
-										  << std::endl
-										  << "0" << outputValues[0] << std::endl
-										  << "1 " << outputValues[1] << std::endl
-										  << "2 " << outputValues[2] << std::endl
-										  << "3 " << outputValues[3] << std::endl
-										  << "4 " << outputValues[4] << std::endl
-										  << "5 " << outputValues[5] << std::endl
-										  << "6 " << outputValues[6] << std::endl
-										  << "7 " << outputValues[7] << std::endl
-										  << "8 " << outputValues[8] << std::endl;
-								std::cin >> outputIndex;
-								// Check if piece is already there
-								if (board[outputIndex] != 0)
-								{
-									std::cout << std::endl
-											  << std::endl
-											  << "Piece already present. Sort it again." << std::endl;
-									std::cout << std::endl
-											  << std::endl
-											  << "What is the index of the least value? (Index starts at 0)" << std::endl
-											  << std::endl
-											  << "0" << outputValues[0] << std::endl
-											  << "1 " << outputValues[1] << std::endl
-											  << "2 " << outputValues[2] << std::endl
-											  << "3 " << outputValues[3] << std::endl
-											  << "4 " << outputValues[4] << std::endl
-											  << "5 " << outputValues[5] << std::endl
-											  << "6 " << outputValues[6] << std::endl
-											  << "7 " << outputValues[7] << std::endl
-											  << "8 " << outputValues[8] << std::endl;
-									std::cin >> outputIndex;
-								}
-							}
-						}
-					}
-				}
+			if (target == orgOutputValues[j] && board[j] == 0)
+			{ //If empty spot
+				outputIndex = j;
+				break;
 			}
 		}
 	}
@@ -485,7 +322,7 @@ int runANN()
 			  << std::endl
 			  << "Debug print. Output index: " << outputIndex << std::endl
 			  << std::endl;
-	return outputIndex;
+	return outputIndex; // Returns index of output in array of board
 }
 
 // Clears data after game
