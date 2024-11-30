@@ -607,6 +607,18 @@ int trainOnce()
 		displayBoard(annToken, playerToken);
 		decision = runANN();  // Run the model
 		board[decision] = -1; // Make move.
+		res = checkBoard(); // Save memory by only calling once per run
+		std::cout << std::endl
+				  << "Debug res token: " << res << std::endl;
+		if (res == 'a' || res == 'h' || res == 'd')
+		{
+			std::cout << "If condition has been triggered.";
+			gameNumber += 1; // Add game num before dependent fnct call
+			trainModelFromGame(res);
+			trainFunctRun = false;
+			clear();
+			break;
+		}
 		std::cout << std::endl
 				  << std::endl
 				  << "Board:" << std::endl
