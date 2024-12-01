@@ -2,15 +2,15 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm> //Sorting
-#include <fstream> //File input/output
-
+#include <fstream>	 //File input/output
 
 // Program variables:
 
-// training flags:
+// bool flags:
 bool stillRunningTraining = true;
 int board[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // Represents board state (0 = empty, 1 = Player, -1 = ANN) (Read from left to right, top to down (English style))
 int gameNumber = 0;							// Keeps track of game number
+bool saveMetadata;
 
 // Weights
 long double inputWeights[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};	// Input layer weights
@@ -340,7 +340,8 @@ int runANN()
 // Clears data after game
 int clear()
 {
-	//Save copy of game and ANN metadata.
+	if (saveMetadata == true) {
+//Save copy of game and ANN metadata.
 	std::ofstream outfile;
 	outfile.open("metaData.txt", std::ios_base::app);
 	if (!outfile.is_open()) {
@@ -452,7 +453,7 @@ int clear()
 		outfile << layer1WeightActivations[j] << std::endl;
 	}
 	outfile << std::endl;
-	outfile.close();
+}
 	// Board
 	board[0] = 0;
 	board[1] = 0;
@@ -682,6 +683,13 @@ int trainModelFromGame(char res)
 	}
 	return 0;
 }
+
+// Manually coded bot. Doesn't use ANN. Used to train.
+int bot()
+{
+	return 0;
+}
+
 // Trains the model exactly for one game
 int trainOnce()
 {
@@ -690,26 +698,26 @@ int trainOnce()
 	char annToken;			   // ANN piece
 	char playerToken;		   // Player piece
 	int decision = -1;		   // Board index of decision of ANN (place piece) (-1 for now)
-	bool annVAnn = true;	   // ANN v ANN
-	std::string annVAnnInput;
+	bool botVAnn = true;	   // ANN v ANN
+	std::string botVAnnInput;
 	int annCounter = 0;
 	std::string hFirst; // If human go first
 	int hMove;			// Human move index
-	std::cout << "Would you like to train in ANN vs ANN mode?: (Y/n): ";
-	std::cin >> annVAnnInput;
+	std::cout << "Would you like to train in ANN (or bot) vs ANN mode?: (Y/n): ";
+	std::cin >> botVAnnInput;
 	std::cout << std::endl
-			  << "Debug print. annVAnnInput: " << annVAnnInput << std::endl;
-	if (annVAnnInput == "Y" || annVAnnInput == "y" || annVAnnInput == "yes" || annVAnnInput == "1" || annVAnnInput == "Yes" || annVAnnInput == "YES")
+			  << "Debug print. botVAnnInput: " << botVAnnInput << std::endl;
+	if (botVAnnInput == "Y" || botVAnnInput == "y" || botVAnnInput == "yes" || botVAnnInput == "1" || botVAnnInput == "Yes" || botVAnnInput == "YES")
 	{
-		annVAnn = true;
+		botVAnn = true;
 		std::cout << "Debug print: If statement triggered.";
 	}
 	else
 	{
-		annVAnn = false;
+		botVAnn = false;
 		std::cout << "Debug print: Else statement triggered.";
 	}
-	if (annVAnn == false)
+	if (botVAnn == false)
 	{
 		std::cout << "Enter ANN token (piece): ";
 		std::cin >> annToken;
@@ -734,7 +742,7 @@ int trainOnce()
 			std::cout << "What move index will you make?: ";
 			std::cin >> hMove;
 			board[hMove] = 1;
-		}
+
 			while (trainFunctRun == true)
 			{							 // One game
 				char res = checkBoard(); // Save memory by only calling once per run
@@ -778,14 +786,20 @@ int trainOnce()
 				std::cout << std::endl
 						  << std::endl;
 			}
+		}
 	}
-	if (annVAnn == true)
+	if (botVAnn == true)
 	{
 		std::cout << std::endl
-				  << "NOTE: Training in ANN vs ANN mode. How many games will you have it play against itself for?: ";
+				  << "NOTE: Training in ANN vs ANN or bot vs ANN mode. How many games will you have it play against itself for?: ";
 		std::cin >> annCounter;
+		std::cout << std::endl
+				  << "Will you train in bot vs ANN mode? (Y/n:)";
+		std::string mode; // Set mode based on user input
+		std::cin >> mode;
 		annToken = 'X';
 		playerToken = 'O';
+
 		for (int x = 0; x < annCounter; x++)
 		{
 			while (trainFunctRun == true)
@@ -810,10 +824,29 @@ int trainOnce()
 					clear();
 					break;
 				}
-				// Experiment: hot wire ANN to its self.
-				board[runANN()] = 1;
+				if (mode == "y" || mode == "Y" || mode == "yes" || mode == "Yes")
+
+				{
+
+					// Train against manually coded bot
+					board[bot()] = 1;
+				}
+				else
+				{ // ANN vs ANN
+					board[runANN()] = 1;
+				}
+
+				res = checkBoard(); // Save memory by only calling once per run
+				if (res == 'a' || res == 'h' || res == 'd')
+				{
+					gameNumber += 1; // Add game num before dependent fnct call
+					trainModelFromGame(res);
+					trainFunctRun = false;
+					clear();
+					break;
+				}
 			}
-			trainFunctRun = true; //Reset so game can play again.
+			trainFunctRun = true; // Reset so game can play again.
 		}
 	}
 	return 0;
@@ -837,9 +870,23 @@ int main()
 			  << "Init main loop." << std::endl;
 	while (stillRunningTraining == true)
 	{ // Main loop
+	std::string mode;
 		std::cout << std::endl
 				  << "Main loop iteration." << std::endl
-				  << std::endl;
+				  << std::endl << "Is metadata collection allowed for the next game? (y/n): ";
+		std::cin >> mode;
+		if (mode == "n" || mode == "N" || mode == "no" || mode == "No")
+		{
+			saveMetadata = false;
+			std::cout << std::endl
+					  << "Metadata collection disabled." << std::endl;
+		}
+		else
+		{
+			saveMetadata = true;
+			std::cout << std::endl
+					  << "Metadata collection enabled." << std::endl;
+		}
 		trainOnce();
 	}
 	return 0;
