@@ -3,6 +3,9 @@
 #include <ctime>
 #include <algorithm> //Sorting
 #include <fstream>	 //File input/output
+#include <sstream>
+#include <string>
+
 
 // Program variables:
 
@@ -46,6 +49,10 @@ bool layer2WeightActivations[9] = {false, false, false, false, false, false, fal
 bool layer3WeightActivations[9] = {false, false, false, false, false, false, false, false, false}; // Hidden layer #3 weight activations
 bool outputWeightActivations[9] = {false, false, false, false, false, false, false, false, false}; // Output layer weight activations
 
+
+//Storage memory segmentation init location
+std::string savefile;
+
 // Function that displays ASCII render of board. Takes in chars annToken and playerToken:
 int displayBoard(char annToken, char playerToken)
 {
@@ -66,16 +73,18 @@ int displayBoard(char annToken, char playerToken)
 			{ // Player piece
 				std::cout << playerToken << std::endl;
 				if (i != 8)
-				{										   // Ensures last row dosen't have seperator at bottom
-					std::cout << "---------" << std::endl; // Row seperator
+				{ // Ensures last row dosen't have seperator at bottom
+					std::cout
+						<< "---------" << std::endl; // Row seperator
 				}
 			}
 			else if (board[i] == 0)
 			{ // Empty spot
 				std::cout << "." << std::endl;
 				if (i != 8)
-				{										   // Ensures last row dosen't have seperator at bottom
-					std::cout << "---------" << std::endl; // Row seperator
+				{ // Ensures last row dosen't have seperator at bottom
+					std::cout
+						<< "---------" << std::endl; // Row seperator
 				}
 			}
 		}
@@ -273,10 +282,141 @@ char checkBoard()
 	return valid;
 }
 
+//Clears only the ANN, not the board or anything else
+void annClear() {
+	inputValues[0] = 0;
+	inputValues[1] = 0;
+	inputValues[2] = 0;
+	inputValues[3] = 0;
+	inputValues[4] = 0;
+	inputValues[5] = 0;
+	inputValues[6] = 0;
+	inputValues[7] = 0;
+	inputValues[8] = 0;
+	layer1Values[0] = 0;
+	layer1Values[1] = 0;
+	layer1Values[2] = 0;
+	layer1Values[3] = 0;
+	layer1Values[4] = 0;
+	layer1Values[5] = 0;
+	layer1Values[6] = 0;
+	layer1Values[7] = 0;
+	layer1Values[8] = 0;
+	layer2Values[0] = 0;
+	layer2Values[1] = 0;
+	layer2Values[2] = 0;
+	layer2Values[3] = 0;
+	layer2Values[4] = 0;
+	layer2Values[5] = 0;
+	layer2Values[6] = 0;
+	layer2Values[7] = 0;
+	layer2Values[8] = 0;
+	layer3Values[0] = 0;
+	layer3Values[1] = 0;
+	layer3Values[2] = 0;
+	layer3Values[3] = 0;
+	layer3Values[4] = 0;
+	layer3Values[5] = 0;
+	layer3Values[6] = 0;
+	layer3Values[7] = 0;
+	layer3Values[8] = 0;
+	outputValues[0] = 0;
+	outputValues[1] = 0;
+	outputValues[2] = 0;
+	outputValues[3] = 0;
+	outputValues[4] = 0;
+	outputValues[5] = 0;
+	outputValues[6] = 0;
+	outputValues[7] = 0;
+	outputValues[8] = 0;
+	inputWeightActivations[0] = false;
+	inputWeightActivations[1] = false;
+	inputWeightActivations[2] = false;
+	inputWeightActivations[3] = false;
+	inputWeightActivations[4] = false;
+	inputWeightActivations[5] = false;
+	inputWeightActivations[6] = false;
+	inputWeightActivations[7] = false;
+	inputWeightActivations[8] = false;
+	layer1WeightActivations[0] = false;
+	layer1WeightActivations[1] = false;
+	layer1WeightActivations[2] = false;
+	layer1WeightActivations[3] = false;
+	layer1WeightActivations[4] = false;
+	layer1WeightActivations[5] = false;
+	layer1WeightActivations[6] = false;
+	layer1WeightActivations[7] = false;
+	layer1WeightActivations[8] = false;
+	layer2WeightActivations[0] = false;
+	layer2WeightActivations[1] = false;
+	layer2WeightActivations[2] = false;
+	layer2WeightActivations[3] = false;
+	layer2WeightActivations[4] = false;
+	layer2WeightActivations[5] = false;
+	layer2WeightActivations[6] = false;
+	layer2WeightActivations[7] = false;
+	layer2WeightActivations[8] = false;
+	layer3WeightActivations[0] = false;
+	layer3WeightActivations[1] = false;
+	layer3WeightActivations[2] = false;
+	layer3WeightActivations[3] = false;
+	layer3WeightActivations[4] = false;
+	layer3WeightActivations[5] = false;
+	layer3WeightActivations[6] = false;
+	layer3WeightActivations[7] = false;
+	layer3WeightActivations[8] = false;
+	outputWeightActivations[0] = false;
+	outputWeightActivations[1] = false;
+	outputWeightActivations[2] = false;
+	outputWeightActivations[3] = false;
+	outputWeightActivations[4] = false;
+	outputWeightActivations[5] = false;
+	outputWeightActivations[6] = false;
+	outputWeightActivations[7] = false;
+	outputWeightActivations[8] = false;
+
+	layer1BiasActivations[0] = false;
+	layer1BiasActivations[1] = false;
+	layer1BiasActivations[2] = false;
+	layer1BiasActivations[3] = false;
+	layer1BiasActivations[4] = false;
+	layer1BiasActivations[5] = false;
+	layer1BiasActivations[6] = false;
+	layer1BiasActivations[7] = false;
+	layer1BiasActivations[8] = false;
+	layer2BiasActivations[0] = false;
+	layer2BiasActivations[1] = false;
+	layer2BiasActivations[2] = false;
+	layer2BiasActivations[3] = false;
+	layer2BiasActivations[4] = false;
+	layer2BiasActivations[5] = false;
+	layer2BiasActivations[6] = false;
+	layer2BiasActivations[7] = false;
+	layer2BiasActivations[8] = false;
+	layer3BiasActivations[0] = false;
+	layer3BiasActivations[1] = false;
+	layer3BiasActivations[2] = false;
+	layer3BiasActivations[3] = false;
+	layer3BiasActivations[4] = false;
+	layer3BiasActivations[5] = false;
+	layer3BiasActivations[6] = false;
+	layer3BiasActivations[7] = false;
+	layer3BiasActivations[8] = false;
+	outputBiasActivations[0] = false;
+	outputBiasActivations[1] = false;
+	outputBiasActivations[2] = false;
+	outputBiasActivations[3] = false;
+	outputBiasActivations[4] = false;
+	outputBiasActivations[5] = false;
+	outputBiasActivations[6] = false;
+	outputBiasActivations[7] = false;
+	outputBiasActivations[8] = false;
+}
 // Runs ANN
 int runANN()
 {
-	long double minValue = 0.2;
+	annClear();
+	long double minValue = 0.1;
 	int outputIndex; // Index of output in array of board
 	// Input neurons:
 	for (int i = 0; i < 9; i++)
@@ -340,120 +480,129 @@ int runANN()
 // Clears data after game
 int clear()
 {
-	if (saveMetadata == true) {
-//Save copy of game and ANN metadata.
-	std::ofstream outfile;
-	outfile.open("metaData.txt", std::ios_base::app);
-	if (!outfile.is_open()) {
-    std::cerr << "Error opening file." << std::endl;
-    return 1;
-}
+	if (saveMetadata == true)
+	{
+		// Save copy of game and ANN metadata.
+		std::ofstream outfile;
+		outfile.open(savefile, std::ios_base::app);
+		if (!outfile.is_open())
+		{
+			std::cerr << "Error opening file." << std::endl;
+			return 1;
+		}
 
-	outfile << "Game " << gameNumber << " Data: " << std::endl;
-	outfile << "Board: " << std::endl;
-	for (int i = 0; i < 9; i++)
-	{ // loop through array
-		if ((i == 2) || (i == 5) || (i == 8))
-		{ // Detect if on edge of board
-			if (board[i] == -1)
-			{ // ANN piece
-				outfile << "A"; // A for ANN
-				if (i != 8)
-				{										   // Ensures last row dosen't have seperator at bottom
-					outfile << "---------" << std::endl; // Row seperator
+		outfile << "Game " << gameNumber << " Data: " << std::endl;
+		outfile << "Board: " << std::endl;
+		for (int i = 0; i < 9; i++)
+		{ // loop through array
+			if ((i == 2) || (i == 5) || (i == 8))
+			{ // Detect if on edge of board
+				if (board[i] == -1)
+				{					// ANN piece
+					outfile << "A" << std::endl; // A for ANN
+					if (i != 8)
+					{ // Ensures last row dosen't have seperator at bottom
+						outfile
+								<< "---------" << std::endl; // Row seperator
+					}
+				}
+				else if (board[i] == 1)
+				{ // Player piece
+					outfile << "P" << std::endl;
+					if (i != 8)
+					{ // Ensures last row dosen't have seperator at bottom
+						outfile
+								<< "---------" << std::endl; // Row seperator
+					}
+				}
+				else if (board[i] == 0)
+				{ // Empty spot
+					outfile << "." << std::endl;
+					if (i != 8)
+					{ // Ensures last row dosen't have seperator at bottom
+						outfile
+								<< "---------" << std::endl; // Row seperator
+					}
 				}
 			}
-			else if (board[i] == 1)
-			{ // Player piece
-				outfile << "P" << std::endl;
-				if (i != 8)
-				{										   // Ensures last row dosen't have seperator at bottom
-					outfile << "---------" << std::endl; // Row seperator
+			else
+			{ // Middle or non-column piece
+				if (board[i] == -1)
+				{ // ANN piece
+					outfile << "A" << " | ";
 				}
-			}
-			else if (board[i] == 0)
-			{ // Empty spot
-				outfile << "." << std::endl;
-				if (i != 8)
-				{										   // Ensures last row dosen't have seperator at bottom
-					outfile << "---------" << std::endl; // Row seperator
+				else if (board[i] == 1)
+				{ // Player piece
+					outfile << "P" << " | ";
+				}
+				else if (board[i] == 0)
+				{ // Empty spot
+					outfile << "." << " | ";
 				}
 			}
 		}
-		else
-		{ // Middle or non-column piece
-			if (board[i] == -1)
-			{ // ANN piece
-				outfile << "A" << " | ";
-			}
-			else if (board[i] == 1)
-			{ // Player piece
-				outfile << "P" << " | ";
-			}
-			else if (board[i] == 0)
-			{ // Empty spot
-				outfile << "." << " | ";
-			}
+		outfile << "Input layer weights: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << inputWeights[j] << std::endl;
 		}
+		outfile << "Input layer values: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << inputValues[j] << std::endl;
+		}
+		outfile << "Layer 1 weights: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer1Weights[j] << std::endl;
+		}
+		outfile << "Layer 1 biases: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer1Biases[j] << std::endl;
+		}
+		outfile << "Layer 1 values: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer1Values[j] << std::endl;
+		}
+		outfile << "Layer 2 weights: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer2Weights[j] << std::endl;
+		}
+		outfile << "Layer 2 biases: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer2Biases[j] << std::endl;
+		}
+		outfile << "Layer 2 values: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer2Values[j] << std::endl;
+		}
+		outfile << "Layer 3 weights: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer3Weights[j] << std::endl;
+		}
+		outfile << "Layer 3 biases: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer3Biases[j] << std::endl;
+		}
+		outfile << "Layer 3 values: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << layer3Values[j] << std::endl;
+		}
+		outfile << "Output layer values: " << std::endl;
+		for (int j = 0; j < 9; j++)
+		{
+			outfile << outputValues[j] << std::endl;
+		}
+		outfile.close();
 	}
-	outfile << "Input layer weights: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << inputWeights[j] << std::endl;
-	}
-	outfile << "Input layer values: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << inputValues[j] << std::endl;
-	}
-	outfile << "Layer 1 weights: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer1Weights[j] << std::endl;
-	}
-	outfile << "Layer 1 biases: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer1Biases[j] << std::endl;
-	}
-	outfile << "Layer 1 values: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer1Values[j] << std::endl;
-	}
-	outfile << "Layer 2 weights: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer2Weights[j] << std::endl;
-	}
-	outfile << "Layer 2 biases: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-	    outfile << layer2Biases[j] << std::endl;
-	}
-	outfile << "Layer 2 values: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer2Values[j] << std::endl;
-	}
-	outfile << "Layer 3 weights: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer3Weights[j] << std::endl;
-	}
-	outfile << "Layer 3 biases: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer3Biases[j] << std::endl;
-	}
-	outfile << "Layer 3 values: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer3Values[j] << std::endl;
-	}
-	outfile << "Output layer values: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << outputValues[j] << std::endl;
-	}
-	outfile << "Input layer activations: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << inputWeightActivations[j] << std::endl;
-	}
-	outfile << "Layer 1 activations: " << std::endl;
-	for (int j = 0; j < 9; j++) {
-		outfile << layer1WeightActivations[j] << std::endl;
-	}
-	outfile << std::endl;
-}
 	// Board
 	board[0] = 0;
 	board[1] = 0;
@@ -591,7 +740,6 @@ int clear()
 	outputBiasActivations[6] = false;
 	outputBiasActivations[7] = false;
 	outputBiasActivations[8] = false;
-
 	return 0;
 }
 
@@ -600,9 +748,8 @@ int trainModelFromGame(char res)
 {
 	long double adup = 2 / (1 + (static_cast<long double>(gameNumber) / 200)); // Number to add up for win.
 	long double addo = 2 / (1 + (static_cast<long double>(gameNumber) / 101)); // Number to subtract for loss.
-	std::cout << std::endl
-			  << std::endl
-			  << "Debug print. adup: " << adup << " addo: " << addo << " Game number: " << gameNumber << std::endl
+	long double addr = 3 / (2 + (static_cast<long double>(gameNumber) / 400)); // Number to subtract for draw.
+	std::cout << gameNumber << std::endl
 			  << std::endl;
 	if (adup < 0.1)
 	{ // Checks for potential stagnation. SEE README.MD
@@ -628,6 +775,12 @@ int trainModelFromGame(char res)
 				layer1Weights[i] -= addo;
 				inputWeights[i] -= addo;
 			}
+			if (res == 'd')
+			{ // If draw
+				layer1Biases[i] -= addr / 4;
+				layer1Weights[i] -= addr;
+				inputWeights[i] -= addr;
+			}
 		}
 		if (layer2Values[i] > 0)
 		{
@@ -640,10 +793,17 @@ int trainModelFromGame(char res)
 			}
 			if (res == 'h')
 			{ // If human won
-				layer1Biases[i] -= adup / 4;
+				layer1Biases[i] -= addo / 4;
 				layer1Weights[i] -= addo;
-				layer2Biases[i] -= adup / 4;
+				layer2Biases[i] -= addo / 4;
 				layer2Weights[i] -= addo;
+			}
+			if (res == 'd')
+			{ // If draw
+				layer1Biases[i] -= addr / 4;
+				layer1Weights[i] -= addr;
+				layer2Biases[i] -= addr / 4;
+				layer2Weights[i] -= addr;
 			}
 		}
 		if (layer3Values[i] > 0)
@@ -651,16 +811,23 @@ int trainModelFromGame(char res)
 			if (res == 'a')
 			{ // If ann won
 				layer2Biases[i] += adup / 4;
-				layer2Weights[i] += addo;
+				layer2Weights[i] += adup;
 				layer3Biases[i] += adup / 4;
-				layer3Weights[i] += addo;
+				layer3Weights[i] += adup;
 			}
 			if (res == 'h')
 			{ // If human won
-				layer2Biases[i] -= adup / 4;
+				layer2Biases[i] -= addo / 4;
 				layer2Weights[i] -= addo;
-				layer3Biases[i] -= adup / 4;
+				layer3Biases[i] -= addo / 4;
 				layer3Weights[i] -= addo;
+			}
+			if (res == 'd')
+			{ // If draw
+				layer2Biases[i] -= addr / 4;
+				layer2Weights[i] -= addr;
+				layer3Biases[i] -= addr / 4;
+				layer3Weights[i] -= addr;
 			}
 		}
 		if (outputValues[i] > 0)
@@ -668,16 +835,23 @@ int trainModelFromGame(char res)
 			if (res == 'a')
 			{ // If ann won
 				layer3Biases[i] += adup / 4;
-				layer3Weights[i] += addo;
+				layer3Weights[i] += adup;
 				outputBiases[i] += adup / 4;
-				outputWeights[i] += addo;
+				outputWeights[i] += adup;
 			}
 			if (res == 'h')
 			{ // If human won
-				layer3Biases[i] -= adup / 4;
+				layer3Biases[i] -= addo / 4;
 				layer3Weights[i] -= addo;
-				outputBiases[i] -= adup / 4;
+				outputBiases[i] -= addo / 4;
 				outputWeights[i] -= addo;
+			}
+			if (res == 'd')
+			{ // If draw
+				layer3Biases[i] -= addr / 4;
+				layer3Weights[i] -= addr;
+				outputBiases[i] -= addr / 4;
+				outputWeights[i] -= addr;
 			}
 		}
 	}
@@ -693,7 +867,6 @@ int bot()
 // Trains the model exactly for one game
 int trainOnce()
 {
-
 	bool trainFunctRun = true; // For game loop
 	char annToken;			   // ANN piece
 	char playerToken;		   // Player piece
@@ -802,6 +975,10 @@ int trainOnce()
 
 		for (int x = 0; x < annCounter; x++)
 		{
+			if (gameNumber > 0)
+		{
+		    savefile = "Storage/metadata/Segment" + std::to_string(gameNumber/1000) + ".txt";
+		}
 			while (trainFunctRun == true)
 			{							 // One game
 				char res = checkBoard(); // Save memory by only calling once per run
@@ -870,10 +1047,20 @@ int main()
 			  << "Init main loop." << std::endl;
 	while (stillRunningTraining == true)
 	{ // Main loop
-	std::string mode;
+		std::string mode;
+		if (gameNumber == 0)
+		{
+			savefile = "Storage/metadata/Segment0.txt";
+		}
+		if (gameNumber > 0)
+		{
+		    savefile = "Storage/metadata/Segment" + std::to_string(gameNumber/1000) + ".txt";
+		}
+
 		std::cout << std::endl
 				  << "Main loop iteration." << std::endl
-				  << std::endl << "Is metadata collection allowed for the next game? (y/n): ";
+				  << std::endl
+				  << "Is metadata collection allowed for the next game? (y/n): ";
 		std::cin >> mode;
 		if (mode == "n" || mode == "N" || mode == "no" || mode == "No")
 		{

@@ -57,7 +57,7 @@ The ANN will be trained using the following method:
 - The ANN will start with random weights and biases between -0.5 and 0.5.
 - The ANN will play a game of Tic-Tac-Toe against a human player
 During the game, a win/loss/draw detection function will be run after every move.
-- The ANN will then add 2/(1+(game#/200) (minimum will be 0.1 to prevent stagnation) to the weights and a quarter of that to the biases of the neurons that were activated when the ANN won, and subtract 2/(1+(game#/101) (minimum will be 0.1 to prevent stagnation) from the weights and a quarter of that from the biases of the neurons that were activated when the human player won.
+- The ANN will then add 2/(1+(game#/200) (minimum will be 0.1 to prevent stagnation) to the weights and a quarter of that to the biases of the neurons that were activated when the ANN won, and subtract 2/(1+(game#/101) (minimum will be 0.1 to prevent stagnation) from the weights and a quarter of that from the biases of the neurons that were activated when the human player won. If there us a draw, the 3/2+(game#/400) will be subtracted.
  
 **NOTE THAT THE BIASES ARE EXEMPT FROM THE 0.0001 RULE, THEY GO TO A MINNIMUM OF 0.000025, WHICH IS 1/4th OF THE MINNIMUM WEIGHT**.
 - The ANN will then play another game of Tic-Tac-Toe against a human player
