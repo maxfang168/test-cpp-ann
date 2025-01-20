@@ -3,11 +3,13 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "lldb",
+      "type": "cppvsdbg",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/maxfang/Documents/GitHub/test-cpp-ann",
-      "program": "/Users/maxfang/Documents/GitHub/test-cpp-ann/build/Debug/outDebug"
+      "stopAtEntry": false,
+      "console": "externalTerminal",
+      "cwd": "c:/Users/RLS/Documents/GitHub/test-cpp-ann",
+      "program": "c:/Users/RLS/Documents/GitHub/test-cpp-ann/build/Debug/outDebug"
     }
   ]
 }

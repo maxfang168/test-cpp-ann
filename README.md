@@ -1,70 +1,40 @@
-#Purpose
-This program is designed for the purpose of furthering my understanding of the C++ programming language. It is not intended to be used as the basis for any actual projects.
-**BY VIEWING THIS REPOSITORY, YOU ACKNOWLEDGE THAT YOU HAVE READ THE TERMS OF SERVICE, CONTAINED IN THE LICENSE FILE, AND ARE LEGALLY BOUND TO IT.**
+**This is the readme for the second version of the program. This will not repeat the mentioned details found in the original readme (Storage/Archives/version0/README.md)**
 
-#Outline:
-This project will utilize a ANN, and ASCII depictions of the Tic-Tac-Toe board. It will run locally on user's cpu. The ANN will be manually programmed, with no libraries.
-Idea:
-Input layer consists of 9 neurons, each with an input normalized to either 1, or -1. 1 will indicate a move by the player, and -1 will indicate a move made by the ANN. IE:
-Board visualization:
-User is X, ANN is O:
+
+# Training:
+
+
+Will completely scrap training process.
+Will instead do this:
+For the first 100 games, the ANN will play against the player. When it loses, it will lose a certain amount, *p*, in the weights and 1/4th of that in the biases that were activated when it lost. And vice-versa for the wins. However, if it draws, it will get a small award, *p*/8.
+
+For the next 900 games, it will play against the manually coded bot. The same penalties apply.
+
+After the 1000 game, it will be tested against a benchmark:
+The benchmark will contain the following tests:
+
+- Move discovery: The ANN will be fed 50 board states with easily discoverable wining moves. Each will be worth 20 points.  Example:
+
+```cpp
+{-1, -1, 0, 0, 1, 1, 0, 0, -1, -1}
 ```
-X | O | X
----------
-O | X | O
----------
-X | O | X
+
+-Defense Rate: The ANN will be fed 50 board states with places where their opponent could win in one turn. Each will be worth 20 points. Example:
+
+```cpp
+{1, 1, 0, 0, 1, -1, 0, 0, 0, -1}
 ```
-The input layer will be:
-```
-{1, -1, 1, -1, 1, -1, 1, -1, 1}
-```
-This will enable the ANN to start playing either player, and be able to continue previous games.
-Output will consist of 9 neurons, with a weight between 1 and -1. The highest output will become the spot where the ANN is to place their piece. If the highest output already has a piece in it, the second highest, then the 3rd, and so on will be considered.
 
-#Neurons
-Each neuron will have the following properties:
-- A weight between 1 and -1
-- A bias from between 1 and -1
-- A value from between 1 and -1
-- A function to calculate the value of the neuron
-- A function to update the weight and bias of the neuron
-For the input neuron, the input is multiplied by the weight, and the bias is added to the result. The value is then normalized to between 1 and -1 by dividing by the sum of the absolute value of the weight and the bias. It's then fed into a binary function, where if the total is more than 0.5, it activates. Same is similar for hidden layer neurons, but the input from every connected neuron is multiplied by the weight, summed up, averaged, and then normalized to between 1 and -1 by dividing by the sum of the absolute value of the weight and the bias. The value is then fed into a binary function, where if the total is more than 0.5, it activates. For output neurons, there is no activation function.
+- Full game win rate: The ANN will play 100 games against the player, but whether they win or lose will be recorded. Each game is worth 10 points.
 
-#Architecture
-Will run locally on user's cpu.
-Input layer: 9 neurons
-Hidden layer #1: 9 neurons
-Hidden layer #2: 9 neurons
-Hidden layer #3: 9 neurons
-Output layer: 9 neurons
+Final score calculation:
+Sum of all the points gained, then divided by 3000 (Total number of points possible).
 
-#Training
-The ANN will be trained using the following method:
-- The ANN will start with random weights between -0.5 and 0.5.
-- The ANN will play a game of Tic-Tac-Toe against a human player
-During the game, a win/loss/draw detection function will be run after every move.
-- The ANN will then add 0.01 to the weights of the neurons that were activated when the ANN won, and subtract 0.01 from the weights of the neurons that were activated when the human player won.
-- The ANN will then play another game of Tic-Tac-Toe against a human player
-There are plans to implement ANN vs ANN training.
-#Win/Loss detection
-- A program will be written to detect if the game has been won, lost, or is a draw
+The penalties, *p* mentioned:
 
-#Requirements
-Minimum (Not recommended):
-Note that in this configuration, modern operating systems will leave the program with almost nothing to work with, and the program will either lag, or will be unable to run.
-- C++XX
-- Clang or G++ (C++ compiler)
-- 4 gb RAM
-- 1.1 Ghz, dual core CPU (Remember, the program will run locally on your cpu)
-Recommended:
-- C++17 or newer
-- Clang or G++ (C++ compiler)
-- 16 gb RAM
-- 3 Ghz, 6 core CPU (Remember, the program will run locally on your cpu)
-Best:
-Optimal performance
-- C++20 or newer
-- Clang or G++ (C++ compiler)
-- 32 gb RAM
-- 4 Ghz, 8 core CPU (Remember, the program will run locally on your cpu)
+Before first benchmark:
+
+Initial values of *p* = 0.5:
+After each benchmark, if the score is more than 80%, then *p* is multiplied by 0.95. If the score is more than 90%, then *p* is multiplied by 0.9. If the score is more than 95%, then *p* is multiplied by 0.8. If the score is more than 97%, then *p* is multiplyed by 0.7. If the score is more than 99%, then *p* is multiplyed by 0.1. If the score is 100%, then *p* is multiplyed by 0.01.
+
+There will be options to train for a specific number of games, or to train until a certain benchmark score is reached.
